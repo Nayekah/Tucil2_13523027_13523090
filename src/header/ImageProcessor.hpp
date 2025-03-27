@@ -1,0 +1,58 @@
+#ifndef _IMAGE_PROCESSOR_HPP
+#define _IMAGE_PROCESSOR_HPP
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <fstream>
+#include "CompressionParams.hpp"
+#include "QuadTree.hpp"
+#include "Pixel.hpp"
+#include "ErrorCalculator.hpp"
+
+using namespace std;
+
+
+class ImageProcessor {
+public:
+    ImageProcessor(const CompressionParams& params);
+    ~ImageProcessor();
+    
+    // Image operations
+    bool loadImage(const string& imagePath);
+    QuadTree compressImage();
+    bool saveCompressedImage(const string& outputPath);
+    size_t calculateTheoricalCompressedSize(const QuadTree& tree) const;
+    
+    // Getters
+    size_t getOriginalImageSize() const { return originalImageSize; }
+    size_t getCompressedImageSize() const { return compressedImageSize; }
+    int getImageWidth() const { return imageWidth; }
+    int getImageHeight() const { return imageHeight; }
+    
+private:
+    CompressionParams params;
+    int imageWidth;
+    int imageHeight;
+    vector<vector<Pixel>> pixels;
+    unique_ptr<ErrorCalculator> errorCalculator;
+    size_t originalImageSize;
+    size_t compressedImageSize;
+    QuadTree quadTree;
+    
+    // Helper methods
+    size_t getFileSize(const string& filename) const;
+    void initializeErrorCalculator();
+    shared_ptr<QuadTreeNode> buildQuadTree(int x, int y, int width, int height, int depth);
+    bool shouldSubdivide(int x, int y, int width, int height, double& error);
+    Pixel calculateAverageColor(int x, int y, int width, int height);
+    
+    // Target compression methods
+    double findThresholdForTargetCompression(double targetPercentage);
+    double compressWithThreshold(double threshold);
+    
+    // Safety check
+    bool isValidRegion(int x, int y, int width, int height) const;
+};
+
+#endif

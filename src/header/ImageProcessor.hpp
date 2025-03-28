@@ -12,6 +12,9 @@
 
 using namespace std;
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
 
 class ImageProcessor {
 public:
@@ -41,6 +44,7 @@ private:
     QuadTree quadTree;
     
     // Helper methods
+    void adjustMinimumBlockSize();
     size_t getFileSize(const string& filename) const;
     void initializeErrorCalculator();
     shared_ptr<QuadTreeNode> buildQuadTree(int x, int y, int width, int height, int depth);

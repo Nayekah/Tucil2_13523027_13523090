@@ -207,25 +207,59 @@ bool InputManager::handleThresholdPage() {
     
     double min = 0.0;
     double max = 255.0;
+    double defaultValue = 50.0;
+    string rangeDescription;
+    
     switch (params.errorMethod) {
         case ErrorMethod::VARIANCE:
-            cout << "For Variance method, suggested range: 0-255" << endl;
+            min = 0.0;
+            max = 16256.25; // (127.5)²
+            defaultValue = 500.0;
+            rangeDescription = "For Variance method (theoretical max: 16256.25)\n"
+                              "* Low threshold (high detail): 50-500\n"
+                              "* Medium threshold: 500-2000\n"
+                              "* High threshold (less detail): 2000-5000";
             break;
         case ErrorMethod::MEAN_ABSOLUTE_DEVIATION:
-            cout << "For MAD method, suggested range: 0-50" << endl;
+            min = 0.0;
+            max = 127.5; // Maximum possible MAD
+            defaultValue = 15.0;
+            rangeDescription = "For MAD method (theoretical max: 127.5)\n"
+                              "* Low threshold (high detail): 5-15\n"
+                              "* Medium threshold: 15-30\n"
+                              "* High threshold (less detail): 30-50";
             break;
         case ErrorMethod::MAX_PIXEL_DIFFERENCE:
-            cout << "For Max Pixel Difference, suggested range: 0-100" << endl;
+            min = 0.0;
+            max = 255.0; // Maximum pixel difference
+            defaultValue = 30.0;
+            rangeDescription = "For Max Pixel Difference (theoretical max: 255)\n"
+                              "* Low threshold (high detail): 10-30\n"
+                              "* Medium threshold: 30-60\n"
+                              "* High threshold (less detail): 60-100";
             break;
         case ErrorMethod::ENTROPY:
-            cout << "For Entropy method, suggested range: 0-8" << endl;
-            max = 8.0;
+            min = 0.0;
+            max = 8.0; // Maximum entropy for 8-bit channels
+            defaultValue = 1.0;
+            rangeDescription = "For Entropy method (theoretical max: 8)\n"
+                              "* Low threshold (high detail): 0.1-1.0\n"
+                              "* Medium threshold: 1.0-2.0\n"
+                              "* High threshold (less detail): 2.0-4.0";
             break;
         case ErrorMethod::STRUCTURAL_SIMILARITY:
-            cout << "For SSIM method, suggested range: 0.0-1.0 (lower values mean higher quality)" << endl;
-            max = 1.0;
+            min = 0.0;
+            max = 1.0; // SSIM error range
+            defaultValue = 0.05;
+            rangeDescription = "For SSIM method (theoretical max: 1.0)\n"
+                              "* Low threshold (high detail): 0.01-0.05\n"
+                              "* Medium threshold: 0.05-0.15\n"
+                              "* High threshold (less detail): 0.15-0.3";
             break;
     }
+    
+    cout << rangeDescription << endl;
+    cout << "Suggested default value: " << defaultValue << endl;
     
     while (true) {
         string input = getStringInput(" ");
@@ -240,31 +274,27 @@ bool InputManager::handleThresholdPage() {
             displayPageHeader("Threshold Value");
             cout << "Enter the threshold value for error." << endl;
             cout << "This value determines when a block should be subdivided." << endl;
-            switch (params.errorMethod) {
-                case ErrorMethod::VARIANCE:
-                    cout << "For Variance method, suggested range: 0-255" << endl;
-                    break;
-                case ErrorMethod::MEAN_ABSOLUTE_DEVIATION:
-                    cout << "For MAD method, suggested range: 0-50" << endl;
-                    break;
-                case ErrorMethod::MAX_PIXEL_DIFFERENCE:
-                    cout << "For Max Pixel Difference, suggested range: 0-100" << endl;
-                    break;
-                case ErrorMethod::ENTROPY:
-                    cout << "For Entropy method, suggested range: 0-8" << endl;
-                    break;
-                case ErrorMethod::STRUCTURAL_SIMILARITY:
-                    cout << "For SSIM method, suggested range: 0.0-1.0 (lower values mean higher quality)" << endl;
-                    break;
-            }
+            cout << rangeDescription << endl;
+            cout << "Suggested default value: " << defaultValue << endl;
             continue;
+        }
+
+        // Accept empty input to use default value
+        if (input.empty()) {
+            params.threshold = defaultValue;
+            cout << "Using default value: " << defaultValue << endl;
+            return true;
         }
         
         try {
             double threshold = stod(input);
             if (threshold < min || threshold > max) {
-                cout << ANSI_RED << "Please enter a value between " << min << " and " << max << "." << ANSI_RESET << endl;
-                continue;
+                cout << ANSI_RED << "Warning: Value " << threshold << " is outside the recommended range of " 
+                     << min << " to " << max << ". Continue anyway? (y/n)" << ANSI_RESET << endl;
+                string confirm = getStringInput("");
+                if (confirm != "y" && confirm != "Y" && confirm != "yes" && confirm != "Yes") {
+                    continue;
+                }
             }
             params.threshold = threshold;
             return true;
@@ -277,8 +307,40 @@ bool InputManager::handleThresholdPage() {
 bool InputManager::handleMinBlockSizePage() {
     clearScreen();
     displayPageHeader("Minimum Block Size");
-    cout << "Enter the minimum block size (power of 2 recommended: 1, 2, 4, 8, etc.)" << endl;
-    cout << "This is the smallest block size that will be used during compression." << endl;
+    cout << "Enter the minimum block size in square pixels (area, not length)" << endl;
+    cout << "This is the smallest area (width × height) that will be used during compression." << endl;
+    
+    // Set the absolute minimum
+    int minValue = 1;
+    
+    // Set a reasonable maximum (if we don't know the image dimensions yet)
+    // This will be the entire image area, but we'll use a large default
+    int maxValue = 65536; // 256×256 pixels by default
+    
+    // If we have the image path, try to get actual dimensions
+    if (!params.inputImagePath.empty() && fs::exists(params.inputImagePath)) {
+        try {
+            cv::Mat image = cv::imread(params.inputImagePath, cv::IMREAD_COLOR);
+            if (!image.empty()) {
+                int imageWidth = image.cols;
+                int imageHeight = image.rows;
+                maxValue = imageWidth * imageHeight; // The entire image area
+            }
+        } catch (...) {
+            // If there's any error, stick with the default maximum
+        }
+    }
+    
+    // Display the allowed range
+    cout << ANSI_GREEN << "\nAllowed range: " << minValue << "-" << maxValue 
+         << " square pixels" << ANSI_RESET << endl;
+    
+    // Also show some recommended values
+    cout << "\nRecommended values:" << endl;
+    cout << "* 4 (2×2) - High detail" << endl;
+    cout << "* 16 (4×4) - Good detail" << endl;
+    cout << "* 64 (8×8) - Medium detail" << endl;
+    cout << "* 256 (16×16) - Low detail" << endl;
     
     while (true) {
         string input = getStringInput(" ");
@@ -289,19 +351,29 @@ bool InputManager::handleMinBlockSizePage() {
             return false;
         }
         if (lower == "clear") {
-            clearScreen();
-            displayPageHeader("Minimum Block Size");
-            cout << "Enter the minimum block size (power of 2 recommended: 1, 2, 4, 8, etc.)" << endl;
-            cout << "This is the smallest block size that will be used during compression." << endl;
-            continue;
+            return handleMinBlockSizePage(); // Refresh the screen
+        }
+        
+        // Accept empty input for default value
+        if (input.empty()) {
+            cout << "Using default value: 4 square pixels (2×2)" << endl;
+            params.minBlockSize = 4;
+            return true;
         }
         
         try {
             int blockSize = stoi(input);
-            if (blockSize < 1 || blockSize > 64) {
-                cout << ANSI_RED << "Please enter a value between 1 and 64." << ANSI_RESET << endl;
+            if (blockSize < minValue) {
+                cout << ANSI_RED << "Error: Block size must be at least " << minValue << " square pixel." << ANSI_RESET << endl;
                 continue;
             }
+            
+            if (blockSize > maxValue) {
+                cout << ANSI_RED << "Error: Block size cannot exceed " << maxValue 
+                     << " square pixels (the image area)." << ANSI_RESET << endl;
+                continue;
+            }
+            
             params.minBlockSize = blockSize;
             return true;
         } catch (const exception&) {

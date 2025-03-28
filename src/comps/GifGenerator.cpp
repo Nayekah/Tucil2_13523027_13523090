@@ -54,6 +54,7 @@ bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPat
             frames.push_back(frame);
             
             // If we have subdivided areas, add some intermediate frames
+            /*
             if (depth < depthLimit && frames.size() < maxFrames) {
                 // Add a few more frames showing intermediate divisions
                 int subFrames = min(3, maxFrames - (int)frames.size());
@@ -64,6 +65,7 @@ bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPat
                     frames.push_back(subFrame);
                 }
             }
+            */
         }
         
         // Save frames as individual images
@@ -85,7 +87,7 @@ bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPat
         }
         
         // Use ImageMagick to combine frames into a GIF
-        string cmd = "convert -delay 20 -loop 0 " + tempDir + "/frame_*.png " + outputPath;
+        string cmd = "convert -delay 50 -loop 0 " + tempDir + "/frame_*.png " + outputPath;
         int result = system(cmd.c_str());
         
         if (result != 0) {
@@ -180,14 +182,15 @@ void GifGenerator::drawNode(Frame& frame, const shared_ptr<QuadTreeNode>& node) 
     int height = node->getHeight();
     
     // Fill the node area with its color
-    for (int j = y; j < y + height && j < frame.height; ++j) {
-        for (int i = x; i < x + width && i < frame.width; ++i) {
-            if (j >= 0 && i >= 0) {
+    for (int j = y; j < y + height; ++j) {
+        for (int i = x; i < x + width; ++i) {
+            if (j >= 0 && i >= 0 && j < frame.height && i < frame.width) {
                 frame.pixels[j][i] = color;
             }
         }
     }
     
+    /*
     // Draw borders
     Pixel borderColor(0, 0, 0); // Black border
     
@@ -206,4 +209,5 @@ void GifGenerator::drawNode(Frame& frame, const shared_ptr<QuadTreeNode>& node) 
             if (x + width - 1 >= 0 && x + width - 1 < frame.width) frame.pixels[j][x + width - 1] = borderColor;
         }
     }
+    */
 }

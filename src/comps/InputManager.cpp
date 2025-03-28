@@ -24,6 +24,7 @@ InputManager::InputManager() : currentPage(InputPage::INPUT_IMAGE_PATH) {
 
 InputManager::~InputManager() {
 }
+
 CompressionParams InputManager::getCompressionParams() {
     bool goNext = true;
     

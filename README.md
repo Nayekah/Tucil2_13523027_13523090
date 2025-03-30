@@ -53,7 +53,7 @@
  - CMake
  - OpenCV
  - ImageMagick
- - GNU Compiler
+ - C++ Compiler
  
  ### ⬇️ Installing Dependencies
  
@@ -66,7 +66,19 @@
        ```bash
     winget install microsoft.visualstudiocode
     ```
-4. Dependecies
+ 3. Mingw (C++ Compiler)
+       ```bash
+    # Install and setup for Windows
+       
+    https://www.mingw-w64.org/downloads/
+    ```
+  4. Chocolatey (Package installer for Windows)
+       ```bash
+    # Install and setup
+       
+    https://chocolatey.org/install
+    ```
+5. Dependecies
     ```bash
     # Run it in administrator mode (cmd/powershell)
     

@@ -55,7 +55,9 @@
  - OpenCV
  - ImageMagick
  - C++ Compiler
- 
+
+ <br/>
+ <br/>
  ### ⬇️ Installing Dependencies
 
  <a id="win-dependencies"></a>

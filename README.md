@@ -250,11 +250,16 @@
  
  | No | Points | Yes | No |
  | --- | --- | --- | --- |
- | 1 | The bot can be run on the Engine that the assistant has modified. | ✔️ | |
- | 2 | Created 4 greedy solutions with different heuristics. | ✔️ | |
- | 3 | Make reports according to specifications. | ✔️ | |
- | 4 | Created a bonus video and uploaded it on Youtube. | ✔️ | |
- 
+ | 1 | The program compiles successfully without errors. | ✔️ | |
+ | 2 | The Program successfully executed. | ✔️ | |
+ | 3 | The program successfully compresses the image according to the specified parameters. | ✔️ | |
+ | 4 | Implement all mandatory error calculation methods. | ✔️ | |
+ | 5 | [Bonus] Implementation of compression percentage as an additional parameter. | ✔️ | |
+ | 6 | [Bonus] Implementation of Structural Similarity Index (SSIM)
+as an error measurement method. | ✔️ | |
+ | 7 | [Bonus] Output as GIF Visualizing the Process
+of Quadtree formation in Image Compression. | ✔️ | |
+ | 8 | Program and report made by ourself | ✔️ | |
  </div>
  
  <br/>

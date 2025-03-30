@@ -35,9 +35,9 @@
  
    <p align="center">
  
-[![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=cplusplus&logoColor=white)][Cplusplus-url]
-[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white)][OpenCV-url]
-[![ImageMagick](https://img.shields.io/badge/ImageMagick-000000.svg?style=for-the-badge&logo=imagemagick&logoColor=white)][ImageMagick-url]
+[![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org)
+[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org)
+[![ImageMagick](https://img.shields.io/badge/ImageMagick-000000.svg?style=for-the-badge&logo=imagemagick&logoColor=white)](https://imagemagick.org)
  
    </p>
  </div>

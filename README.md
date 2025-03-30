@@ -56,7 +56,8 @@
  - C++ Compiler
  
  ### ⬇️ Installing Dependencies
- 
+
+ <a id="win-dependencies"></a>
  #### 🪟 Windows
  1. Git
        ```bash
@@ -131,7 +132,7 @@
        ```bash
     cd /Tucil2_13523027_13523090
     ```
- 4. Install the [dependencies](#-installing-dependencies) first (if not already installed)
+ 4. Install the [dependencies](#win-dependencies) first (if not already installed)
  5. Do: 
     ```bash
     build.bat

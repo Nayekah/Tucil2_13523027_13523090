@@ -7,41 +7,40 @@
 </div>
 
 <!-- CONTRIBUTOR -->
-<div align="center" id="contributor">
-  <strong>
-    <h3>/////// Project Black Lock 🔐 ///////</h3>
-    
-    <table align="center">
-      <tr align="center">
-        <td>SIN</td>
-        <td>Name</td>
-        <td>GitHub</td>
-      </tr>
-      <tr align="center">
-        <td>13523027</td>
-        <td>Fajar Kurniawan</td>
-        <td><a href="https://github.com/Fajar2k5">@Fajar2k5</a></td>
-      </tr>
-      <tr align="center">
-        <td>13523090</td>
-        <td>Nayaka Ghana Subrata</td>
-        <td><a href="https://github.com/Nayekah">@Nayekah</a></td>
-      </tr>
-    </table>
-  </strong>
-</div>
-
-<br>
-
-<div align="center">
-  <h3 align="center">/////// Tech Stacks and Languages /////// </h3>
-  
-  <p align="center">
-    [![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org)
-    [![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org)
-    [![ImageMagick](https://img.shields.io/badge/ImageMagick-000000.svg?style=for-the-badge&logo=imagemagick&logoColor=white)](https://imagemagick.org)
-  </p>
-</div>
+ <div align="center" id="contributor">
+   <strong>
+     <h3>/////// Project Black Lock 🔐 ///////</h3>
+     <table align="center">
+       <tr align="center">
+         <td>SIN</td>
+         <td>Name</td>
+         <td>GitHub</td>
+       </tr>
+       <tr align="center">
+         <td>13523027</td>
+         <td>Fajar Kurniawan</td>
+         <td><a href="https://github.com/Fajar2k5">@Fajar2k5</a></td>
+       </tr>
+       <tr align="center">
+         <td>13523090</td>
+         <td>Nayaka Ghana Subrata</td>
+         <td><a href="https://github.com/Nayekah">@Nayekah</a></td>
+       </tr>
+     </table>
+   </strong>
+ </div>
+ 
+ <div align="center">
+   <h3 align="center">/////// Tech Stacks and Languages /////// </h3>
+ 
+   <p align="center">
+ 
+[![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org)
+[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org)
+[![ImageMagick](https://img.shields.io/badge/ImageMagick-000000.svg?style=for-the-badge&logo=imagemagick&logoColor=white)](https://imagemagick.org)
+ 
+   </p>
+ </div>
  
  ---
  

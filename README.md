@@ -19,7 +19,7 @@
        <tr align="center">
          <td>13523027</td>
          <td>Fajar Kurniawan</td>
-         <td><a href="https://github.com/Fajar2k25">@Fajar2k25</a></td>
+         <td><a href="https://github.com/Fajar2k5">@Fajar2k5</a></td>
        </tr>
        <tr align="center">
          <td>13523090</td>

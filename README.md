@@ -17,19 +17,14 @@
          <td>GitHub</td>
        </tr>
        <tr align="center">
-         <td>13523004</td>
-         <td>Razi Rachman Widyadhana</td>
-         <td><a href="https://github.com/zirachw">@zirachw</a></td>
+         <td>13523027</td>
+         <td>Fajar Kurniawan</td>
+         <td><a href="https://github.com/Fajar2k25">@Fajar2k25</a></td>
        </tr>
        <tr align="center">
          <td>13523090</td>
          <td>Nayaka Ghana Subrata</td>
          <td><a href="https://github.com/Nayekah">@Nayekah</a></td>
-       </tr>
-       <tr align="center">
-         <td>13523098</td>
-         <td>Muhammad Adha Ridwan</td>
-         <td><a href="https://github.com/adharidwan">@adharidwan</a></td>
        </tr>
      </table>
    </strong>
@@ -54,8 +49,11 @@
  ### ✅ Requirements
  - Git
  - Any IDE (recommended: VSCode)
- - dotnet version 8.0
- - Java
+ - Chocolatey (for Windows)
+ - CMake
+ - OpenCV
+ - ImageMagick
+ - GNU Compiler
  
  ### ⬇️ Installing Dependencies
  
@@ -67,14 +65,6 @@
  2. VSCode
        ```bash
     winget install microsoft.visualstudiocode
-    ```
- 3. dotnet
-       ```bash
-    https://dotnet.microsoft.com/en-us/download
-    ```
- 4. Java
-       ```bash
-    https://www.oracle.com/java/technologies/downloads/
     ```
  <br/>
  <br/>
@@ -91,19 +81,6 @@
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     sudo apt update
     sudo apt install code
-    ```
- 3. dotnet
-       ```bash
-    wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-    sudo dpkg -i packages-microsoft-prod.deb
-    rm packages-microsoft-prod.deb
-    sudo apt-get update
-    sudo apt-get install -y dotnet-sdk-8.0
-    ```
- 4. Java
-       ```bash
-    sudo apt update
-    sudo apt install default-jdk
     ```
  
  ---

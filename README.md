@@ -112,10 +112,30 @@
     ```
  
  ---
- ## 🛠️ How To Setup
+ ## 🔧 How To Setup
  
  ### **🪟 Windows**
- ### 🛠️ Build (If you want to build it from the beginning)
+ #### 🛠️ Build (If you want to build it from the beginning)
+ 1. Open a terminal
+ 2. Clone the repository (if not already cloned)
+       ```bash
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
+    ```
+ 3. Make Tucil2_13523027_13523090 as root directory:
+       ```bash
+    cd /Tucil2_13523027_13523090
+    ```
+ 4. Install the dependencies first (if not already installed)
+ 5. Do: 
+    ```bash
+    build.bat
+
+    # or
+
+    \.build.bat
+    ```
+
+ #### 🧹 Clean
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
@@ -127,32 +147,14 @@
     ```
  4. Do: 
     ```bash
-    build.bat
+    clean.bat
 
     # or
 
-    \.build.bat
+    \.clean.bat
     ```
-
  <br/>
  <br/>
- 
- ### ⚙️ Game Engine
- (See the bots section first for the prerequisite)
- 
- 1. Open a terminal
- 2. Clone the repository (if not already cloned)
-       ```bash
-    git clone https://github.com/zirachw/Tubes1_Rudal-Sekeloa-Reloaded.git
-    ```
- 3. Make Tubes1_Rudal-Sekeloa-Reloaded as root directory:
-       ```bash
-    cd Tubes1_Rudal-Sekeloa-Reloaded
-    ```
- 4. Run the following command to start the Game Engine
-    ```bash
-    java -jar robocode-tankroyale-gui-0.30.0.jar
-    ```
  ---
  ### **🐧 Linux (UNIX system)**
  ### 🤖 Bots

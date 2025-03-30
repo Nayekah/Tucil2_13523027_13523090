@@ -103,6 +103,12 @@
     sudo apt update
     sudo apt install code
     ```
+ 3. Mingw (C++ Compiler)
+       ```bash
+    # Install and setup for your Linux distro (see the docs below)
+       
+    https://www.mingw-w64.org/downloads/
+    ```
 4. Dependecies
     ```bash
     sudo apt update

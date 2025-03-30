@@ -68,13 +68,13 @@
     ```
  3. Mingw (C++ Compiler)
        ```bash
-    # Install and setup for Windows
+    # Install and setup for Windows (see the docs below)
        
     https://www.mingw-w64.org/downloads/
     ```
-  4. Chocolatey (Package installer for Windows)
+ 4. Chocolatey (Package installer for Windows)
        ```bash
-    # Install and setup
+    # Install and setup (see the docs below)
        
     https://chocolatey.org/install
     ```

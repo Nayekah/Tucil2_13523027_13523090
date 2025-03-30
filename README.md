@@ -115,29 +115,25 @@
  ## 🛠️ How To Setup
  
  ### **🪟 Windows**
- ### 🤖 Bots
+ ### 🛠️ Build (If you want to build it from the beginning)
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
-    git clone https://github.com/zirachw/Tubes1_Rudal-Sekeloa-Reloaded.git
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
     ```
- 3. Make Tubes1_Rudal-Sekeloa-Reloaded as root directory:
+ 3. Make Tucil2_13523027_13523090 as root directory:
        ```bash
-    cd Tubes1_Rudal-Sekeloa-Reloaded
+    cd /Tucil2_13523027_13523090
     ```
- 5. Direct it to bot's root folder:
+ 4. Do: 
     ```bash
-    cd src/alternative-bots/[botname]
+    build.bat
+
+    # or
+
+    \.build.bat
     ```
-    if you want to compile alternative bots, or
-       ```bash
-    cd src/main-bots/[botname]
-    ```
-    if you want to compile main bot
- 4. Compile the bot (bin obj making process):
-    ```bash
-    [botname].cmd
-    ```
+
  <br/>
  <br/>
  

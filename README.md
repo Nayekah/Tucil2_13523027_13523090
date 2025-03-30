@@ -31,13 +31,13 @@
  </div>
  
  <div align="center">
-   <h3 align="center">~ Tech Stacks ~ </h3>
+   <h3 align="center">~ Tech Stacks and Languages ~ </h3>
  
    <p align="center">
  
- [![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white)][Csharp-url]
- [![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)][Java-url]
- [![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)][Gradle-url]
+[![C++](https://img.shields.io/badge/C++-00599C.svg?style=for-the-badge&logo=cplusplus&logoColor=white)][Cplusplus-url]
+[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=for-the-badge&logo=opencv&logoColor=white)][OpenCV-url]
+[![ImageMagick](https://img.shields.io/badge/ImageMagick-000000.svg?style=for-the-badge&logo=imagemagick&logoColor=white)][ImageMagick-url]
  
    </p>
  </div>

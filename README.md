@@ -264,7 +264,7 @@
  <br/>
  
  <div align="center">
- Fajar Kurniawan, Nayaka Ghana Subrata • © 2025 • 13523027, 13523090
+ Project Black Lock • © 2025 • 13523027-13523090
  </div>
  
  <!-- MARKDOWN LINKS & IMAGES -->

@@ -29,7 +29,8 @@
      </table>
    </strong>
  </div>
- 
+
+ <br>
  <div align="center">
    <h3 align="center">/////// Tech Stacks and Languages /////// </h3>
  

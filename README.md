@@ -66,6 +66,13 @@
        ```bash
     winget install microsoft.visualstudiocode
     ```
+4. Dependecies
+    ```bash
+    choco install cmake -y
+    choco install opencv -y
+    choco install imagemagick -y
+    ```
+
  <br/>
  <br/>
  
@@ -81,6 +88,13 @@
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     sudo apt update
     sudo apt install code
+    ```
+4. Dependecies
+    ```bash
+    sudo apt update
+    sudo apt install cmake
+    sudo apt install libopencv-dev
+    sudo apt install imagemagick
     ```
  
  ---

@@ -17,4 +17,4 @@ cmake "$PROJECT_ROOT"
 # Lakukan build secara paralel (sesuaikan jumlah core dengan nproc)
 make -j$(nproc)
 
-echo "Build complete. Executable berada di $PROJECT_ROOT/bin"
+echo "Build complete. Executable berada di $PROJECT_ROOT/bin/quadtree_compression"

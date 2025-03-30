@@ -68,6 +68,8 @@
     ```
 4. Dependecies
     ```bash
+    # Run it in administrator mode (cmd/powershell)
+    
     choco install cmake -y
     choco install opencv -y
     choco install imagemagick -y

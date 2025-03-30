@@ -12,8 +12,8 @@
      <h3>/////// Project Black Lock 🔐 ///////</h3>
      <table align="center">
        <tr align="center">
-         <td>NIM</td>
-         <td>Nama</td>
+         <td>SIN</td>
+         <td>Name</td>
          <td>GitHub</td>
        </tr>
        <tr align="center">

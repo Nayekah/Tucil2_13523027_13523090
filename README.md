@@ -3,7 +3,7 @@
  
  ---
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/1f3eaf71-3863-4f30-b713-1d17479bc32a" alt="WhatsApp Video 2025-03-24 at 14 31 17 (1)" />
+  <img src="https://github.com/user-attachments/assets/3f986e00-4d65-4c02-8461-cc539b5f3fda" alt="Lock-in" />
 </div>
 
  <!-- CONTRIBUTOR -->

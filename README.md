@@ -163,8 +163,9 @@
     ```
  <br/>
  <br/>
+ 
  ---
- ### **🐧 Linux (UNIX system)**
+ ### **🐧 Linux**
  #### 🛠️ Build (If you want to build it from the beginning)
  1. Open a terminal
  2. Clone the repository (if not already cloned)

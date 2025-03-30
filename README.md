@@ -255,10 +255,8 @@
  | 3 | The program successfully compresses the image according to the specified parameters. | ✔️ | |
  | 4 | Implement all mandatory error calculation methods. | ✔️ | |
  | 5 | [Bonus] Implementation of compression percentage as an additional parameter. | ✔️ | |
- | 6 | [Bonus] Implementation of Structural Similarity Index (SSIM)
-as an error measurement method. | ✔️ | |
- | 7 | [Bonus] Output as GIF Visualizing the Process
-of Quadtree formation in Image Compression. | ✔️ | |
+ | 6 | [Bonus] Implementation of Structural Similarity Index (SSIM) as an error measurement method. | ✔️ | |
+ | 7 | [Bonus] Output as GIF Visualizing the Process of Quadtree formation in Image Compression. | ✔️ | |
  | 8 | Program and report made by ourself | ✔️ | |
  </div>
  

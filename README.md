@@ -9,7 +9,7 @@
  <!-- CONTRIBUTOR -->
  <div align="center" id="contributor">
    <strong>
-     <h3>~ Project Black Lock 🔐 ~</h3>
+     <h3>/////// Project Black Lock 🔐 ///////</h3>
      <table align="center">
        <tr align="center">
          <td>NIM</td>
@@ -31,7 +31,7 @@
  </div>
  
  <div align="center">
-   <h3 align="center">~ Tech Stacks and Languages ~ </h3>
+   <h3 align="center">/////// Tech Stacks and Languages /////// </h3>
  
    <p align="center">
  

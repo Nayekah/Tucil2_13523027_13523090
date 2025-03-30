@@ -1,6 +1,5 @@
 # Tucil 2
-This repository contains an image compression application that leverages a Quadtree data structure, built in `C++` using `OpenCV` and `ImageMagick` that implements various **Divide and Conquer** and **Decrease and Conquer** algorithm.
-This program also incorporates multiple error measurement methods—including variance, mean absolute deviation (MAD), maximum pixel difference, entropy, and Structural Similarity Index (SSIM)—to decide when to subdivide image regions.
+<div align="justify"> This repository contains an image compression application that leverages a Quadtree data structure, built in <code>C++</code> using <code>OpenCV</code> and <code>ImageMagick</code> that implements various <strong>Divide and Conquer</strong> and <strong>Decrease and Conquer</strong> algorithms. This program also incorporates multiple error measurement methods—including variance, mean absolute deviation (MAD), maximum pixel difference, entropy, and Structural Similarity Index (SSIM)—to decide when to subdivide image regions. Additionally, it can generate Graphics Interchange Format (GIF) files to visualize the compression process, providing an intuitive demonstration of how the quadtree structure evolves during compression. </div>
  
  ---
 <div align="center">

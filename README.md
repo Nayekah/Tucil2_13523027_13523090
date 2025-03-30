@@ -1,5 +1,6 @@
 # Tucil 2
- A repository contains 4 Bots (1 main and 3 alternatives) in `C# (.net)` using `Java` game engine that implement various Greedy algorithms in [**Tank Royale Robocode**](https://robocode-dev.github.io/tank-royale/) with the goal of winning the game. 
+This repository contains an image compression application that leverages a Quadtree data structure, built in `C++` using `OpenCV` and `ImageMagick` that implements various **Divide and Conquer** and **Decrease and Conquer** algorithm.
+This program also incorporates multiple error measurement methods—including variance, mean absolute deviation (MAD), maximum pixel difference, entropy, and Structural Similarity Index (SSIM)—to decide when to subdivide image regions.
  
  ---
 <div align="center">

@@ -123,6 +123,7 @@
     sudo apt install cmake
     sudo apt install libopencv-dev
     sudo apt install imagemagick
+    sudo apt install ffmpeg
     ```
  
  ---

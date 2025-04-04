@@ -147,7 +147,7 @@
 
     # or
 
-    \.build.bat
+    .\build.bat
     ```
 
  #### 🧹 Clean
@@ -166,7 +166,7 @@
 
     # or
 
-    \.clean.bat
+    .\clean.bat
     ```
  <br/>
  <br/>

@@ -35,10 +35,29 @@ CompressionParams BasicInputManager::getCompressionParams() {
     // 1. Input image path
     cout << "1. Enter absolute path to image for compression: ";
     getline(cin, input);
-    while (input.empty() || !fileExists(input) || !isImageFile(input)) {
-        cout << ANSI_RED << "Error: File does not exist or is not a valid image file (.jpg, .jpeg, .png)." << ANSI_RESET << endl;
-        cout << "Enter absolute path to image for compression: ";
-        getline(cin, input);
+    while (true) {
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Input path cannot be empty. Please enter a valid file path." << ANSI_RESET << endl;
+            cout << "Enter absolute path to image for compression: ";
+            getline(cin, input);
+            continue;
+        }
+        
+        if (!fileExists(input)) {
+            cout << ANSI_RED << "Error: File does not exist. Please check the path and try again." << ANSI_RESET << endl;
+            cout << "Enter absolute path to image for compression: ";
+            getline(cin, input);
+            continue;
+        }
+        
+        if (!isImageFile(input)) {
+            cout << ANSI_RED << "Error: File is not a valid image file (.jpg, .jpeg, .png)." << ANSI_RESET << endl;
+            cout << "Enter absolute path to image for compression: ";
+            getline(cin, input);
+            continue;
+        }
+        
+        break;
     }
     params.inputImagePath = input;
     cout << endl << endl;
@@ -54,6 +73,13 @@ CompressionParams BasicInputManager::getCompressionParams() {
     getline(cin, input);
     int methodChoice;
     while (true) {
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Method choice cannot be empty. Please enter a number between 1 and 5." << ANSI_RESET << endl;
+            cout << "Enter choice (1-5): ";
+            getline(cin, input);
+            continue;
+        }
+        
         try {
             methodChoice = stoi(input);
             if (methodChoice >= 1 && methodChoice <= 5) break;
@@ -77,35 +103,35 @@ CompressionParams BasicInputManager::getCompressionParams() {
             rangeDescription = "For Variance method (valid range: 0.0-16256.25)\n"
                               "* Low threshold (high detail): 50-500\n"
                               "* Medium threshold: 500-2000\n"
-                              "* High threshold (less detail): 2000-5000";
+                              "* High threshold (less detail): 2000-5000++";
             break;
         case ErrorMethod::MEAN_ABSOLUTE_DEVIATION:
             min = 0.0; max = 127.5; defaultValue = 15.0;
             rangeDescription = "For MAD method (valid range: 0.0-127.5)\n"
                               "* Low threshold (high detail): 5-15\n"
                               "* Medium threshold: 15-30\n"
-                              "* High threshold (less detail): 30-50";
+                              "* High threshold (less detail): 30-50++";
             break;
         case ErrorMethod::MAX_PIXEL_DIFFERENCE:
             min = 0.0; max = 255.0; defaultValue = 30.0;
             rangeDescription = "For Max Pixel Difference (valid range: 0.0-255.0)\n"
                               "* Low threshold (high detail): 10-30\n"
                               "* Medium threshold: 30-60\n"
-                              "* High threshold (less detail): 60-100";
+                              "* High threshold (less detail): 60-100++";
             break;
         case ErrorMethod::ENTROPY:
             min = 0.0; max = 8.0; defaultValue = 1.0;
             rangeDescription = "For Entropy method (valid range: 0.0-8.0)\n"
                               "* Low threshold (high detail): 0.1-1.0\n"
                               "* Medium threshold: 1.0-2.0\n"
-                              "* High threshold (less detail): 2.0-4.0";
+                              "* High threshold (less detail): 2.0-4.0++";
             break;
         case ErrorMethod::STRUCTURAL_SIMILARITY:
             min = 0.0; max = 1.0; defaultValue = 0.05;
             rangeDescription = "For SSIM method (valid range: 0.0-1.0)\n"
                               "* Low threshold (high detail): 0.01-0.05\n"
                               "* Medium threshold: 0.05-0.15\n"
-                              "* High threshold (less detail): 0.15-0.3";
+                              "* High threshold (less detail): 0.15-0.3++";
             break;
     }
     
@@ -118,7 +144,8 @@ CompressionParams BasicInputManager::getCompressionParams() {
     
     while (true) {
         if (input.empty()) {
-            cout << ANSI_RED << "Error: Threshold value cannot be empty. Please enter a value." << ANSI_RESET << endl;
+            cout << ANSI_RED << "Error: Threshold value cannot be empty. Please enter a value within the range " 
+                 << min << " to " << max << "." << ANSI_RESET << endl;
             cout << "Enter threshold: ";
             getline(cin, input);
             continue;
@@ -140,19 +167,19 @@ CompressionParams BasicInputManager::getCompressionParams() {
     cout << endl << endl;
     
     // 4. Minimum block size
-    cout << "4. Enter minimum block size in square pixels (area, not length)" << endl;
-    cout << "   This is the smallest area (width × height) that will be used during compression." << endl;
-    cout << "   Recommended values:" << endl;
-    cout << "   * 4 (2×2) - High detail" << endl;
-    cout << "   * 16 (4×4) - Good detail" << endl;
-    cout << "   * 64 (8×8) - Medium detail" << endl;
-    cout << "   * 256 (16×16) - Low detail" << endl;
+    cout << "4. Enter minimum block size in square pixels (area)" << endl;
+    cout << "   This is the smallest area (width x height) that will be used during compression." << endl;
+    cout << "   Recommended values (only applies if the dimensions are relatively big):" << endl;
+    cout << "   * 4 (2x2) - High detail" << endl;
+    cout << "   * 16 (4x4) - Good detail" << endl;
+    cout << "   * 64 (8x8) - Medium detail" << endl;
+    cout << "   * 256 (16x16++) - Low detail" << endl;
     cout << "Enter minimum block size: ";
     getline(cin, input);
     
     while (true) {
         if (input.empty()) {
-            cout << ANSI_RED << "Error: Minimum block size cannot be empty. Please enter a value." << ANSI_RESET << endl;
+            cout << ANSI_RED << "Error: Minimum block size cannot be empty. Please enter a positive integer value." << ANSI_RESET << endl;
             cout << "Enter minimum block size: ";
             getline(cin, input);
             continue;
@@ -166,7 +193,7 @@ CompressionParams BasicInputManager::getCompressionParams() {
             }
             cout << ANSI_RED << "Error: Block size must be at least 1 square pixel." << ANSI_RESET << endl;
         } catch (const exception&) {
-            cout << ANSI_RED << "Error: Please enter a valid number." << ANSI_RESET << endl;
+            cout << ANSI_RED << "Error: Please enter a valid integer number." << ANSI_RESET << endl;
         }
         cout << "Enter minimum block size: ";
         getline(cin, input);
@@ -181,6 +208,13 @@ CompressionParams BasicInputManager::getCompressionParams() {
     getline(cin, input);
     
     while (true) {
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Target compression value cannot be empty. Please enter a value between 0.0 and 1.0." << ANSI_RESET << endl;
+            cout << "Enter target compression: ";
+            getline(cin, input);
+            continue;
+        }
+        
         try {
             double percentage = stod(input);
             if (percentage >= 0.0 && percentage <= 1.0) {
@@ -211,7 +245,8 @@ CompressionParams BasicInputManager::getCompressionParams() {
     
     while (true) {
         if (input.empty()) {
-            cout << ANSI_RED << "Error: Output path cannot be empty." << ANSI_RESET << endl;
+            cout << ANSI_RED << "Error: Output path cannot be empty. Please specify a valid file path with the " 
+                 << inputExt << " extension." << ANSI_RESET << endl;
             cout << "Enter output path: ";
             getline(cin, input);
             continue;
@@ -287,7 +322,7 @@ CompressionParams BasicInputManager::getCompressionParams() {
         
         while (true) {
             if (input.empty()) {
-                cout << ANSI_RED << "Error: GIF output path cannot be empty." << ANSI_RESET << endl;
+                cout << ANSI_RED << "Error: GIF output path cannot be empty. Please specify a valid file path with .gif extension." << ANSI_RESET << endl;
                 cout << "Enter absolute path for output GIF: ";
                 getline(cin, input);
                 continue;

@@ -142,6 +142,12 @@ bool InputManager::handleInputImagePathPage() {
 
     while (true) {
         string path = getStringInput(" ");
+        
+        if (path.empty()) {
+            cout << ANSI_RED << "Error: Path cannot be empty. Please enter a valid file path." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lowerInput = path;
         transform(lowerInput.begin(), lowerInput.end(), lowerInput.begin(), ::tolower);
 
@@ -182,6 +188,12 @@ bool InputManager::handleErrorMethodPage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Selection cannot be empty. Please choose a method (1-5)." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -280,6 +292,13 @@ bool InputManager::handleThresholdPage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Threshold value cannot be empty. Please enter a value within the range " 
+                 << min << " to " << max << "." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -297,11 +316,6 @@ bool InputManager::handleThresholdPage() {
             continue;
         }
 
-        if (input.empty()) {
-            cout << ANSI_RED << "Error: Threshold value cannot be empty. Please enter a value." << ANSI_RESET << endl;
-            continue;
-        }
-        
         try {
             double threshold = stod(input);
             if (threshold < min || threshold > max) {
@@ -344,7 +358,7 @@ bool InputManager::handleMinBlockSizePage() {
     cout << ANSI_GREEN << "\nAllowed range: " << minValue << "-" << maxValue 
          << " square pixels" << ANSI_RESET << endl;
     
-    cout << "\nRecommended values:" << endl;
+    cout << "\nRecommended values (only applies if the dimensions are relatively big):" << endl;
     cout << "* 4 (2x2) - High detail" << endl;
     cout << "* 16 (4x4) - Good detail" << endl;
     cout << "* 64 (8x8) - Medium detail" << endl;
@@ -352,6 +366,12 @@ bool InputManager::handleMinBlockSizePage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Minimum block size cannot be empty. Please enter a positive integer value." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -360,11 +380,6 @@ bool InputManager::handleMinBlockSizePage() {
         }
         if (lower == "clear") {
             return handleMinBlockSizePage();
-        }
-        
-        if (input.empty()) {
-            cout << ANSI_RED << "Error: Minimum block size cannot be empty. Please enter a value." << ANSI_RESET << endl;
-            continue;
         }
         
         try {
@@ -398,6 +413,12 @@ bool InputManager::handleTargetCompressionPage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Target compression value cannot be empty. Please enter a value between 0.0 and 1.0." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -442,6 +463,13 @@ bool InputManager::handleOutputImagePathPage() {
     
     while (true) {
         string path = getStringInput(" ");
+        
+        if (path.empty()) {
+            cout << ANSI_RED << "Error: Output path cannot be empty. Please specify a valid file path with the " 
+                 << inputExt << " extension." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = path;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -454,11 +482,6 @@ bool InputManager::handleOutputImagePathPage() {
             cout << "Enter the output path for the compressed image" << endl;
             cout << ANSI_BOLD << ANSI_RED << "NOTE: The output file MUST use the same extension as the input file (" 
                  << inputExt << ")" << ANSI_RESET << endl;
-            continue;
-        }
-        
-        if (path.empty()) {
-            cout << ANSI_RED << "Error: Output path cannot be empty." << ANSI_RESET << endl;
             continue;
         }
         
@@ -503,6 +526,12 @@ bool InputManager::handleGifOutputPathPage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Selection cannot be empty. Please enter 'y' or 'n'." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -533,6 +562,12 @@ bool InputManager::handleGifOutputPathPage() {
     
     while (true) {
         string path = getStringInput(" ");
+        
+        if (path.empty()) {
+            cout << ANSI_RED << "Error: GIF output path cannot be empty. Please specify a valid file path with .gif extension." << ANSI_RESET << endl;
+            continue;
+        }
+        
         string lower = path;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -613,6 +648,11 @@ bool InputManager::handleConfirmationPage() {
     
     while (true) {
         string input = getStringInput(" ");
+        
+        if (input.empty()) {
+            return true;
+        }
+        
         string lower = input;
         transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
@@ -755,6 +795,11 @@ int InputManager::getIntInput(const string& prompt, int min, int max) {
     string input;
     getline(cin, input);
 
+    if (input.empty()) {
+        cout << ANSI_RED << "Error: Input cannot be empty. Please enter a number between " << min << " and " << max << "." << ANSI_RESET << endl;
+        return getIntInput(prompt, min, max);
+    }
+
     if (input == "exit") {
         exit(0);
     }
@@ -790,6 +835,11 @@ double InputManager::getDoubleInput(const string& prompt, double min, double max
     cout << "> ";
     string input;
     getline(cin, input);
+
+    if (input.empty()) {
+        cout << ANSI_RED << "Error: Input cannot be empty. Please enter a number between " << min << " and " << max << "." << ANSI_RESET << endl;
+        return getDoubleInput(prompt, min, max);
+    }
 
     if (input == "exit") {
         exit(0);
@@ -828,6 +878,11 @@ bool InputManager::getBoolInput(const string& prompt) {
         cout << "> ";
         string input;
         getline(cin, input);
+        
+        if (input.empty()) {
+            cout << ANSI_RED << "Error: Input cannot be empty. Please enter 'y' for Yes or 'n' for No." << ANSI_RESET << endl;
+            continue;
+        }
         
         if (input == "exit") {
             exit(0);

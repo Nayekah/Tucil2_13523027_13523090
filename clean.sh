@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Dapatkan direktori root project (di mana clean.sh berada)
+# Dapatkan direktori root project
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 # Lokasi folder build dan executable

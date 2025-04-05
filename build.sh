@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Tentukan direktori root project (di mana build.sh berada)
+# Tentukan direktori root project
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 # Buat folder bin/linux jika belum ada

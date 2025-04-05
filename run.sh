@@ -85,5 +85,3 @@ else
     echo "  ./run.sh            : Run in Default Interactive Mode"
     exit 1
 fi
-
-# Add execution rights to the script by running: chmod +x run.sh

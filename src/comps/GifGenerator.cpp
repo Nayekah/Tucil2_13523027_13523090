@@ -1,20 +1,13 @@
+// include header file
 #include "GifGenerator.hpp"
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <cstdlib>
-#include <string>
 
-// Include OpenCV for frame generation
-#include <opencv2/opencv.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
 
-GifGenerator::GifGenerator()
-    : imageWidth(0), imageHeight(0) {
+GifGenerator::GifGenerator(): imageWidth(0), imageHeight(0) {
+    // cons
 }
 
 GifGenerator::~GifGenerator() {
+    // dtor
 }
 
 bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPath) {
@@ -27,55 +20,44 @@ bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPat
     imageHeight = root->getHeight();
     
     try {
-        // Create a temp directory for frames
-        string tempDir = "/tmp/quadtree_frames";
-        system(("mkdir -p " + tempDir).c_str());
+        string tempDir;
+
+        // simpan gambar perframe di temporary folder
+        #ifdef _WIN32 // windows
+            tempDir = "temp_quadtree_frames";
+            system(("if exist " + tempDir + " rmdir /s /q " + tempDir).c_str());
+            system(("mkdir " + tempDir).c_str());
+        #else // linux
+            tempDir = "/tmp/quadtree_frames";
+            system(("rm -rf " + tempDir + " && mkdir -p " + tempDir).c_str());
+        #endif
         
-        // Clear any existing frames
         frames.clear();
         
-        // Generate frames incrementally (limit to avoid too many frames)
-        int maxFrames = 50; // Adjust based on your needs
+        int maxFrames = 80;
         int depthLimit = quadTree.getDepth();
         
         for (int depth = 0; depth <= depthLimit; ++depth) {
-            // Create a frame for this depth
+            // buat frame sesuai dengan depth
             Frame frame;
             frame.width = imageWidth;
             frame.height = imageHeight;
             
-            // Initialize with white background
             frame.pixels.resize(imageHeight, vector<Pixel>(imageWidth, Pixel(255, 255, 255)));
             
-            // Fill in the frame with nodes up to this depth
+            // Fill frame sesuai sama node relatif terhadap depth
             renderTreeAtDepth(frame, quadTree.getRoot(), depth);
-            
-            // Add to our collection
             frames.push_back(frame);
-            
-            // If we have subdivided areas, add some intermediate frames
-            /*
-            if (depth < depthLimit && frames.size() < maxFrames) {
-                // Add a few more frames showing intermediate divisions
-                int subFrames = min(3, maxFrames - (int)frames.size());
-                for (int i = 1; i <= subFrames; ++i) {
-                    Frame subFrame = frame; // Start with the current frame
-                    int nextDepth = depth + 1;
-                    renderPartialDepth(subFrame, quadTree.getRoot(), depth, nextDepth, i / (float)(subFrames + 1));
-                    frames.push_back(subFrame);
-                }
-            }
-            */
         }
         
-        // Save frames as individual images
+        // Save frames
         for (size_t i = 0; i < frames.size(); ++i) {
             cv::Mat cvFrame(frames[i].height, frames[i].width, CV_8UC3);
             
             for (int y = 0; y < frames[i].height; ++y) {
                 for (int x = 0; x < frames[i].width; ++x) {
                     cv::Vec3b& color = cvFrame.at<cv::Vec3b>(y, x);
-                    color[0] = frames[i].pixels[y][x].b; // BGR format for OpenCV
+                    color[0] = frames[i].pixels[y][x].b;
                     color[1] = frames[i].pixels[y][x].g;
                     color[2] = frames[i].pixels[y][x].r;
                 }
@@ -86,18 +68,69 @@ bool GifGenerator::generateGif(const QuadTree& quadTree, const string& outputPat
             cv::imwrite(ss.str(), cvFrame);
         }
         
-        // Use ImageMagick to combine frames into a GIF
-        string cmd = "convert -delay 50 -loop 0 " + tempDir + "/frame_*.png " + outputPath;
+        string cmd;
+        #ifdef _WIN32 // windows
+            string imCheck = "where magick >nul 2>&1";
+            int imResult = system(imCheck.c_str());
+            if (imResult == 0) {
+                cmd = "magick -delay 50 -loop 0 " + tempDir + "\\frame_*.png \"" + outputPath + "\"";
+            } else {
+                string ffmpegCheck = "where ffmpeg >nul 2>&1";
+                int ffmpegResult = system(ffmpegCheck.c_str());
+                if (ffmpegResult == 0) {
+                    cmd = "ffmpeg -y -framerate 2 -i " + tempDir + "\\frame_%05d.png -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" \"" + outputPath + "\"";
+                } else {
+                    cerr << "Neither ImageMagick nor FFmpeg found on Windows. Please install one of them to create GIFs." << endl;
+                    cerr << "ImageMagick: https://imagemagick.org/script/download.php" << endl;
+                    cerr << "FFmpeg: https://ffmpeg.org/download.html" << endl;
+                    
+                    system(("rmdir /s /q " + tempDir).c_str());
+                    return false;
+                }
+            }
+        #else // linux
+            string imCheck = "which convert >/dev/null 2>&1";
+            int imResult = system(imCheck.c_str());
+            if (imResult == 0) {
+                cmd = "convert -delay 50 -loop 0 " + tempDir + "/frame_*.png \"" + outputPath + "\"";
+            } else {
+                string ffmpegCheck = "which ffmpeg >/dev/null 2>&1";
+                int ffmpegResult = system(ffmpegCheck.c_str());
+                if (ffmpegResult == 0) {
+                    cmd = "ffmpeg -y -framerate 2 -i " + tempDir + "/frame_%05d.png -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" \"" + outputPath + "\"";
+                } else {
+                    cerr << "Neither ImageMagick nor FFmpeg found on Linux. Please install one of them to create GIFs." << endl;
+                    cerr << "ImageMagick: sudo apt-get install imagemagick" << endl;
+                    cerr << "FFmpeg: sudo apt-get install ffmpeg" << endl;
+                    
+                    system(("rm -rf " + tempDir).c_str());
+                    return false;
+                }
+            }
+        #endif
+        
         int result = system(cmd.c_str());
         
         if (result != 0) {
-            cerr << "Failed to create GIF with ImageMagick. Make sure it's installed." << endl;
-            cerr << "Try installing with: sudo apt-get install imagemagick" << endl;
+            cerr << "Failed to create GIF. Error code: " << result << endl;
+            
+            // Cleaning up the mess, hehe
+            #ifdef _WIN32 // windows
+                system(("rmdir /s /q " + tempDir).c_str());
+            #else // linux
+                system(("rm -rf " + tempDir).c_str());
+            #endif
+            
             return false;
         }
         
-        // Clean up temporary files
-        system(("rm -rf " + tempDir).c_str());
+        #ifdef _WIN32
+            system(("rmdir /s /q " + tempDir).c_str());
+        #else
+            system(("rm -rf " + tempDir).c_str());
+        #endif
+        
+        cout << "GIF successfully created at: " << outputPath << endl;
         
         return true;
     } catch (const exception& e) {
@@ -113,7 +146,8 @@ void GifGenerator::renderTreeAtDepth(Frame& frame, const shared_ptr<QuadTreeNode
     if (node->isLeaf() || currentDepth == targetDepth) {
         drawNode(frame, node);
     } 
-    // If we haven't reached the target depth yet, continue recursing
+
+    // continue recursing if not
     else if (currentDepth < targetDepth) {
         for (const auto& child : node->getChildren()) {
             renderTreeAtDepth(frame, child, targetDepth, currentDepth + 1);
@@ -125,8 +159,7 @@ void GifGenerator::renderTreeAtDepth(Frame& frame, const shared_ptr<QuadTreeNode
     renderTreeAtDepth(frame, node, targetDepth, 0);
 }
 
-void GifGenerator::renderPartialDepth(Frame& frame, const shared_ptr<QuadTreeNode>& node, 
-                                     int baseDepth, int nextDepth, float progress) {
+void GifGenerator::renderPartialDepth(Frame& frame, const shared_ptr<QuadTreeNode>& node, int baseDepth, int nextDepth, float progress) {
     if (!node) return;
     
     if (node->isLeaf()) {
@@ -139,23 +172,22 @@ void GifGenerator::renderPartialDepth(Frame& frame, const shared_ptr<QuadTreeNod
     // Draw all nodes up to baseDepth
     if (nodeDepth <= baseDepth) {
         if (nodeDepth == baseDepth) {
-            // At the boundary depth, decide if this node should be subdivided based on progress
+            // At the boundary depth, decide if this node should be subdivided
             if (progress < 0.5f) {
                 drawNode(frame, node);
             } else {
-                // Start showing children
+                // show children
                 for (const auto& child : node->getChildren()) {
                     drawNode(frame, child);
                 }
             }
         } else {
-            // Below base depth, recurse to children
+            // if below base depth, recurse to children
             for (const auto& child : node->getChildren()) {
                 renderPartialDepth(frame, child, baseDepth, nextDepth, progress);
             }
         }
     } else {
-        // For deeper nodes, just draw them
         drawNode(frame, node);
     }
 }
@@ -181,7 +213,6 @@ void GifGenerator::drawNode(Frame& frame, const shared_ptr<QuadTreeNode>& node) 
     int width = node->getWidth();
     int height = node->getHeight();
     
-    // Fill the node area with its color
     for (int j = y; j < y + height; ++j) {
         for (int i = x; i < x + width; ++i) {
             if (j >= 0 && i >= 0 && j < frame.height && i < frame.width) {
@@ -189,25 +220,4 @@ void GifGenerator::drawNode(Frame& frame, const shared_ptr<QuadTreeNode>& node) 
             }
         }
     }
-    
-    /*
-    // Draw borders
-    Pixel borderColor(0, 0, 0); // Black border
-    
-    // Draw horizontal borders
-    for (int i = x; i < x + width && i < frame.width; ++i) {
-        if (i >= 0) {
-            if (y >= 0 && y < frame.height) frame.pixels[y][i] = borderColor;
-            if (y + height - 1 >= 0 && y + height - 1 < frame.height) frame.pixels[y + height - 1][i] = borderColor;
-        }
-    }
-    
-    // Draw vertical borders
-    for (int j = y; j < y + height && j < frame.height; ++j) {
-        if (j >= 0) {
-            if (x >= 0 && x < frame.width) frame.pixels[j][x] = borderColor;
-            if (x + width - 1 >= 0 && x + width - 1 < frame.width) frame.pixels[j][x + width - 1] = borderColor;
-        }
-    }
-    */
 }

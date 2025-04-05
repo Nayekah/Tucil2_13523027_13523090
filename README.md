@@ -158,7 +158,7 @@
     ```
  3. Make Tucil2_13523027_13523090 as root directory:
        ```bash
-    cd /Tucil2_13523027_13523090
+    cd .\Tucil2_13523027_13523090
     ```
  4. Do: 
     ```bash

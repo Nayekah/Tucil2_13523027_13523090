@@ -1,10 +1,8 @@
+// include header file
 #include "ErrorCalculator.hpp"
-#include <cmath>
-#include <algorithm>
-#include <array>
-#include <map>
 
 
+// handler
 unique_ptr<ErrorCalculator> ErrorCalculator::create(ErrorMethod method) {
     switch (method) {
         case ErrorMethod::VARIANCE:
@@ -22,6 +20,7 @@ unique_ptr<ErrorCalculator> ErrorCalculator::create(ErrorMethod method) {
     }
 }
 
+// rgb channel
 unsigned char getChannelValue(const Pixel& pixel, int channel) {
     switch (channel) {
         case 0: return pixel.r;
@@ -31,12 +30,14 @@ unsigned char getChannelValue(const Pixel& pixel, int channel) {
     }
 }
 
+// variance sum up
 double VarianceErrorCalculator::calculateError(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
     return (calculateVarianceForChannel(pixels, x, y, width, height, 0) +
             calculateVarianceForChannel(pixels, x, y, width, height, 1) +
             calculateVarianceForChannel(pixels, x, y, width, height, 2)) / 3.0;
 }
 
+// variance per channel
 double VarianceErrorCalculator::calculateVarianceForChannel(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height, int channel) {
     double sum = 0;
     for (int j = y; j < y + height; ++j)
@@ -54,12 +55,14 @@ double VarianceErrorCalculator::calculateVarianceForChannel(const vector<vector<
     return variance / (width * height);
 }
 
+// MAD sum up
 double MADErrorCalculator::calculateError(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
     return (calculateMADForChannel(pixels, x, y, width, height, 0) +
             calculateMADForChannel(pixels, x, y, width, height, 1) +
             calculateMADForChannel(pixels, x, y, width, height, 2)) / 3.0;
 }
 
+// MAD per channel
 double MADErrorCalculator::calculateMADForChannel(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height, int channel) {
     double sum = 0;
     for (int j = y; j < y + height; ++j)
@@ -75,12 +78,14 @@ double MADErrorCalculator::calculateMADForChannel(const vector<vector<Pixel>>& p
     return mad / (width * height);
 }
 
+// Diff sum up
 double MaxPixelDifferenceCalculator::calculateError(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
     return (calculateMaxDiffForChannel(pixels, x, y, width, height, 0) +
             calculateMaxDiffForChannel(pixels, x, y, width, height, 1) +
             calculateMaxDiffForChannel(pixels, x, y, width, height, 2)) / 3.0;
 }
 
+// Diff per channel
 double MaxPixelDifferenceCalculator::calculateMaxDiffForChannel(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height, int channel) {
     unsigned char minVal = 255, maxVal = 0;
     for (int j = y; j < y + height; ++j)
@@ -92,12 +97,14 @@ double MaxPixelDifferenceCalculator::calculateMaxDiffForChannel(const vector<vec
     return static_cast<double>(maxVal - minVal);
 }
 
+// Entropy sum up
 double EntropyCalculator::calculateError(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
     return (calculateEntropyForChannel(pixels, x, y, width, height, 0) +
             calculateEntropyForChannel(pixels, x, y, width, height, 1) +
             calculateEntropyForChannel(pixels, x, y, width, height, 2)) / 3.0;
 }
 
+// Entropy per channel
 double EntropyCalculator::calculateEntropyForChannel(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height, int channel) {
     array<int,256> histogram{};
     for (int j = y; j < y + height; ++j)
@@ -112,68 +119,88 @@ double EntropyCalculator::calculateEntropyForChannel(const vector<vector<Pixel>>
     return entropy;
 }
 
+// SSIM sum up
 double SSIMCalculator::calculateError(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
-    return 1.0 - ((calculateSSIMForChannel(pixels, x, y, width, height, 0) +
-                   calculateSSIMForChannel(pixels, x, y, width, height, 1) +
-                   calculateSSIMForChannel(pixels, x, y, width, height, 2)) / 3.0);
+    // Ciptakan blok gambar terkompresi (dengan warna rata-rata)
+    Pixel avgColor = calculateAverageColor(pixels, x, y, width, height);
+    vector<vector<Pixel>> compressedBlock(height, vector<Pixel>(width, avgColor));
+    
+    // Hitung SSIM untuk setiap kanal warna
+    double ssim_r = calculateSSIMForChannel(pixels, compressedBlock, x, y, width, height, 0);
+    double ssim_g = calculateSSIMForChannel(pixels, compressedBlock, x, y, width, height, 1);
+    double ssim_b = calculateSSIMForChannel(pixels, compressedBlock, x, y, width, height, 2);
+    
+    // Rata-rata SSIM untuk semua kanal (bobot seragam)
+    double avg_ssim = (ssim_r + ssim_g + ssim_b) / 3.0;
+    
+    // Definisi "error" = 1 - SSIM, makin besar SSIM makin kecil error
+    return 1.0 - avg_ssim;
 }
 
-double SSIMCalculator::calculateSSIMForChannel(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height, int channel) {
-    // Constants for SSIM calculation (commonly used values)
-    const double C1 = (0.01 * 255) * (0.01 * 255);
-    const double C2 = (0.03 * 255) * (0.03 * 255);
+// SSIM per channel
+double SSIMCalculator::calculateSSIMForChannel(const vector<vector<Pixel>>& originalBlock, const vector<vector<Pixel>>& compressedBlock, int x, int y, int width, int height, int channel){
+    const double L = 255.0;
+    const double K1 = 0.01;
+    const double K2 = 0.03;
+    const double C1 = (K1 * L) * (K1 * L);
+    const double C2 = (K2 * L) * (K2 * L);
     
-    // Calculate the average color of the block
-    Pixel avgColor = calculateAverageColor(pixels, x, y, width, height);
-    
-    // Treat this as the reference image (x)
-    double mu_x = getChannelValue(avgColor, channel);
-    
-    // Original pixel values as the distorted image (y)
-    // Calculate mean of original pixel values
-    double mu_y = 0.0;
-    for (int j = y; j < y + height; ++j) {
-        for (int i = x; i < x + width; ++i) {
-            mu_y += getChannelValue(pixels[j][i], channel);
-        }
+    int N = width * height;
+    if (N < 1) {
+        return 1.0;
     }
-    mu_y /= (width * height);
     
-    // Calculate variance and covariance
-    double sigma_x_squared = 0.0;
-    double sigma_y_squared = 0.0;
-    double sigma_xy = 0.0;
-    
-    for (int j = y; j < y + height; ++j) {
-        for (int i = x; i < x + width; ++i) {
-            double y_val = getChannelValue(pixels[j][i], channel);
-            
-            // Variance for x (every pixel is the same - the average)
-            sigma_x_squared += (mu_x - mu_x) * (mu_x - mu_x);
-            
-            // Variance for y (actual pixel distribution)
-            sigma_y_squared += (y_val - mu_y) * (y_val - mu_y);
-            
-            // Covariance
-            sigma_xy += (mu_x - mu_x) * (y_val - mu_y);
+    // mean for original and compressed blocks
+    double sum_x = 0.0, sum_y = 0.0;
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            sum_x += getChannelValue(originalBlock[y+j][x+i], channel);
+            sum_y += getChannelValue(compressedBlock[j][i], channel);
         }
     }
     
-    sigma_x_squared /= (width * height - 1);
-    sigma_y_squared /= (width * height - 1);
-    sigma_xy /= (width * height - 1);
+    double mu_x = sum_x / N;
+    double mu_y = sum_y / N;
     
-    // Since every pixel in x is the same (the average), sigma_x_squared is 0
-    // We set it to a small value to avoid division by zero
-    sigma_x_squared = 0.000001;
+    // variance and covar
+    double var_x = 0.0, var_y = 0.0, covar_xy = 0.0;
     
-    // Calculate SSIM
-    double ssim = ((2 * mu_x * mu_y + C1) * (2 * sigma_xy + C2)) / 
-                 ((mu_x * mu_x + mu_y * mu_y + C1) * (sigma_x_squared + sigma_y_squared + C2));
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            double x_val = getChannelValue(originalBlock[y+j][x+i], channel);
+            double y_val = getChannelValue(compressedBlock[j][i], channel);
+            
+            double diff_x = x_val - mu_x;
+            double diff_y = y_val - mu_y;
+            
+            var_x += diff_x * diff_x;
+            var_y += diff_y * diff_y;
+            covar_xy += diff_x * diff_y;
+        }
+    }
+    
+    if (N > 1) {
+        var_x /= (N - 1);
+        var_y /= (N - 1);
+        covar_xy /= (N - 1);
+    } else {
+        var_x = var_y = covar_xy = 0.0;
+    }
+    
+    //    SSIM(x,y) = ((2μxμy + C1)(2σxy + C2)) / ((μx² + μy² + C1)(σx² + σy² + C2))
+    double numerator = (2.0 * mu_x * mu_y + C1) * (2.0 * covar_xy + C2);
+    double denominator = (mu_x * mu_x + mu_y * mu_y + C1) * (var_x + var_y + C2);
+    
+    if (denominator < 1e-10) {
+        return 1.0;
+    }
+    
+    double ssim = numerator / denominator;
     
     return ssim;
 }
 
+// compressed block
 Pixel SSIMCalculator::calculateAverageColor(const vector<vector<Pixel>>& pixels, int x, int y, int width, int height) {
     int totalR = 0, totalG = 0, totalB = 0;
     int count = width * height;

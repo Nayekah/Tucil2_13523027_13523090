@@ -138,7 +138,7 @@
     ```
  3. Make Tucil2_13523027_13523090 as root directory:
        ```bash
-    cd /Tucil2_13523027_13523090
+    cd .\Tucil2_13523027_13523090
     ```
  4. Install the [dependencies](#win-dependencies) first (if not already installed)
  5. Do: 

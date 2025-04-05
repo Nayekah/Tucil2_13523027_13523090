@@ -53,19 +53,40 @@ echo INCLUDE = %INCLUDE%
 echo LIB = %LIB%
 echo PATH = %PATH%
 
-rem Pindah ke folder bin (asumsi run.bat berada di direktori root proyek)
+rem Move to bin directory (assuming run.bat is in project root)
 cd /d "%~dp0\bin"
 
 echo.
 echo Running QuadTree Image Compression...
+
+rem Find the actual executable name first to be sure
+set "EXEC_NAME="
+for %%i in (quadtree_compression*.exe) do (
+    set "EXEC_NAME=%%i"
+    echo Found executable: %%i
+)
+
+if "!EXEC_NAME!"=="" (
+    echo ERROR: Could not find quadtree compression executable in bin directory.
+    exit /b 1
+)
+
+rem Process arguments
 if "%~1"=="basic" (
     echo Mode: Basic
-) else if not "%~1"=="" (
-    echo Mode: %~1
+    call !EXEC_NAME! basic
+) else if "%~1"=="page" (
+    echo Mode: Interactive Paging
+    call !EXEC_NAME! page
+) else if "%~1"=="" (
+    echo Mode: Default (Interactive Paging)
+    call !EXEC_NAME!
 ) else (
-    echo Mode: Standard
+    echo Unknown option: %~1
+    echo.
+    echo Usage:
+    echo   run.bat --basic   : Run in Basic Mode
+    echo   run.bat --page    : Run in Interactive Paging Mode
+    echo   run.bat           : Run in Default Interactive Mode
+    exit /b 1
 )
-echo.
-
-rem Jalankan executable dengan semua parameter yang diberikan
-quadtree_compression.exe %*

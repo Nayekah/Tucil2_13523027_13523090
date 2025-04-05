@@ -1,15 +1,16 @@
+// Include header file
 #include "CompressionAnalyzer.hpp"
-#include <iostream>
-#include <iomanip>
 
 
-CompressionAnalyzer::CompressionAnalyzer(size_t originalSize, size_t compressedSize, const QuadTree& quadTree)
-    : originalImageSize(originalSize), compressedImageSize(compressedSize), quadTree(quadTree) {
+CompressionAnalyzer::CompressionAnalyzer(size_t originalSize, size_t compressedSize, const QuadTree& quadTree) : originalImageSize(originalSize), compressedImageSize(compressedSize), quadTree(quadTree) {
+    // cons
 }
 
 CompressionAnalyzer::~CompressionAnalyzer() {
+    // dtor
 }
 
+// percentage calc
 double CompressionAnalyzer::calculateCompressionPercentage() const {
     if (originalImageSize == 0) {
         return 0.0;
@@ -17,6 +18,7 @@ double CompressionAnalyzer::calculateCompressionPercentage() const {
     return (1.0 - static_cast<double>(compressedImageSize) / originalImageSize) * 100.0;
 }
 
+// handler
 void CompressionAnalyzer::displayResults(double executionTimeSeconds) const {
     cout << "\n========================================" << endl;
     cout << "       Compression Results" << endl;

@@ -1,11 +1,15 @@
-#ifndef _COMPRESSION_PARAMS_H
-#define _COMPRESSION_PARAMS_H
+#ifndef _COMPRESSION_PARAMS_HPP
+#define _COMPRESSION_PARAMS_HPP
 
+
+// include lib file
 #include <string>
 
+
+// namespace
 using namespace std;
 
-
+// Error method list
 enum class ErrorMethod {
     VARIANCE = 1,
     MEAN_ABSOLUTE_DEVIATION = 2,
@@ -14,6 +18,7 @@ enum class ErrorMethod {
     STRUCTURAL_SIMILARITY = 5
 };
 
+// Compression parameters structure
 struct CompressionParams {
     string inputImagePath;
     ErrorMethod errorMethod;

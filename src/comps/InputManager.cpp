@@ -1,10 +1,6 @@
+// include header file
 #include "InputManager.hpp"
-#include <fstream>
-#include <filesystem>
-#include <cstdlib>
-#include <string>
-#include <algorithm>
-#include <iostream>
+
 
 // ANSI color definitions
 #define ANSI_RESET    "\033[0m"
@@ -17,14 +13,17 @@
 #define ANSI_CYAN     "\033[36m"
 #define ANSI_WHITE    "\033[37m"
 
-namespace fs = std::filesystem;
 
 InputManager::InputManager() : currentPage(InputPage::INPUT_IMAGE_PATH) {
+    // constructor
 }
 
 InputManager::~InputManager() {
+    // dtor
 }
 
+
+// Page handler (untuk paging)
 CompressionParams InputManager::getCompressionParams() {
     bool goNext = true;
     
@@ -64,13 +63,14 @@ CompressionParams InputManager::getCompressionParams() {
             currentPage = static_cast<InputPage>(static_cast<int>(currentPage) + 1);
         } else {
             if (currentPage == InputPage::INPUT_IMAGE_PATH) {
-                continue; // Already at first page, stay there
+                continue;
             }
             currentPage = static_cast<InputPage>(static_cast<int>(currentPage) - 1);
         }
     }
 }
 
+// Screen flusher untuk refresh
 void InputManager::clearScreen() {
     #ifdef _WIN32
         system("cls");
@@ -79,25 +79,38 @@ void InputManager::clearScreen() {
     #endif
 }
 
+// spacing
 void addVerticalSpacing(int lines = 10) {
     for (int i = 0; i < lines; ++i) {
         cout << endl;
     }
 }
 
+// Header untuk setiap halaman
 void InputManager::displayPageHeader(const string& title) {
     clearScreen();
-    // ASCII Art Header untuk "Quadtree Compressor"
-    cout <<
-" ██████╗ ██╗   ██╗ █████╗ ██████╗ ████████╗██████╗ ███████╗███████╗     ██████╗ ██████╗ ███╗   ███╗██████╗ ██████╗ ███████╗███████╗███████╗ ██████╗ ██████╗ \n"
-"██╔═══██╗██║   ██║██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔════╝██╔════╝    ██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝██╔═══██╗██╔══██╗\n"
-"██║   ██║██║   ██║███████║██║  ██║   ██║   ██████╔╝█████╗  █████╗      ██║     ██║   ██║██╔████╔██║██████╔╝██████╔╝█████╗  ███████╗███████╗██║   ██║██████╔╝\n"
-"██║▄▄ ██║██║   ██║██╔══██║██║  ██║   ██║   ██╔══██╗██╔══╝  ██╔══╝      ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║██║   ██║██╔══██╗\n"
-"╚██████╔╝╚██████╔╝██║  ██║██████╔╝   ██║   ██║  ██║███████╗███████╗    ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ██║  ██║███████╗███████║███████║╚██████╔╝██║  ██║\n"
-" ╚══▀▀═╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝     ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝\n"
-"\n";
+    #ifdef _WIN32
+        cout <<
+"   ____  _    _         _____ _______ _____  ______ ______    _____ ____  __  __ _____  _____  ______  _____ _____  ____  _____  \n"
+"  / __ \\| |  | |  /\\   |  __ \\__   __|  __ \\|  ____|  ____|  / ____/ __ \\|  \\/  |  __ \\|  __ \\|  ____|/ ____/ ____|/ __ \\|  __ \\ \n"
+" | |  | | |  | | /  \\  | |  | | | |  | |__) | |__  | |__    | |   | |  | | \\  / | |__) | |__) | |__  | (___| (___ | |  | | |__) |\n"
+" | |  | | |  | |/ /\\ \\ | |  | | | |  |  _  /|  __| |  __|   | |   | |  | | |\\/| |  ___/|  _  /|  __|  \\___ \\\\___ \\| |  | |  _  / \n"
+" | |__| | |__| / ____ \\| |__| | | |  | | \\ \\| |____| |____  | |___| |__| | |  | | |    | | \\ \\| |____ ____) |___) | |__| | | \\ \\ \n"
+"  \\___\\_\\\\____/_/    \\_\\_____/  |_|  |_|  \\_\\______|______|  \\_____\\____/|_|  |_|_|    |_|  \\_\\______|_____/_____/ \\____/|_|  \\_\\\n"
+"                                                                                                                                 \n"
+"                                                                                                                                 \n";
+    #else
+        // Mau pakai ini buat windows juga tapi gak support :(
+        cout <<
+        " ██████╗ ██╗   ██╗ █████╗ ██████╗ ████████╗██████╗ ███████╗███████╗     ██████╗ ██████╗ ███╗   ███╗██████╗ ██████╗ ███████╗███████╗███████╗ ██████╗ ██████╗ \n"
+        "██╔═══██╗██║   ██║██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔════╝██╔════╝    ██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝██╔═══██╗██╔══██╗\n"
+        "██║   ██║██║   ██║███████║██║  ██║   ██║   ██████╔╝█████╗  █████╗      ██║     ██║   ██║██╔████╔██║██████╔╝██████╔╝█████╗  ███████╗███████╗██║   ██║██████╔╝\n"
+        "██║▄▄ ██║██║   ██║██╔══██║██║  ██║   ██║   ██╔══██╗██╔══╝  ██╔══╝      ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║██║   ██║██╔══██╗\n"
+        "╚██████╔╝╚██████╔╝██║  ██║██████╔╝   ██║   ██║  ██║███████╗███████╗    ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ██║  ██║███████╗███████║███████║╚██████╔╝██║  ██║\n"
+        " ╚══▀▀═╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝     ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝\n"
+        "\n";
+    #endif
     
-    // Header Title dan info halaman dengan warna
     cout << ANSI_YELLOW << ANSI_BOLD << "  QuadTree Image Compression - " << title << ANSI_RESET << endl;
     cout << ANSI_GREEN << "Page: [ " << (static_cast<int>(currentPage) + 1) << "/8 ]" << ANSI_RESET << endl;
     addVerticalSpacing();
@@ -120,8 +133,9 @@ void InputManager::displayPageFooter() {
     cout << "========================================" << endl;
 }
 
+
+// handle input image
 bool InputManager::handleInputImagePathPage() {
-    // Tampilkan header dengan warna dan ASCII art
     clearScreen();
     displayPageHeader("Input Image Path");
     cout << "Please enter the absolute path to the image to compress:\n\n";
@@ -146,7 +160,7 @@ bool InputManager::handleInputImagePathPage() {
             continue;
         }
         if (!isImageFile(path)) {
-            cout << ANSI_RED << "Error: File is not a supported image type. Use .jpg, .png, or .bmp." << ANSI_RESET << endl;
+            cout << ANSI_RED << "Error: File is not a supported image type. Use .jpg, .png, or .jpeg." << ANSI_RESET << endl;
             continue;
         }
 
@@ -155,6 +169,7 @@ bool InputManager::handleInputImagePathPage() {
     }
 }
 
+// handle input error method
 bool InputManager::handleErrorMethodPage() {
     clearScreen();
     displayPageHeader("Error Measurement Method");
@@ -199,6 +214,7 @@ bool InputManager::handleErrorMethodPage() {
     }
 }
 
+// handle input threshold per error method
 bool InputManager::handleThresholdPage() {
     clearScreen();
     displayPageHeader("Threshold Value");
@@ -215,51 +231,52 @@ bool InputManager::handleThresholdPage() {
             min = 0.0;
             max = 16256.25; // (127.5)²
             defaultValue = 500.0;
-            rangeDescription = "For Variance method (theoretical max: 16256.25)\n"
+            rangeDescription = "For Variance method (valid range: 0.0-16256.25)\n"
                               "* Low threshold (high detail): 50-500\n"
                               "* Medium threshold: 500-2000\n"
-                              "* High threshold (less detail): 2000-5000";
+                              "* High threshold (less detail): 2000-5000++";
             break;
         case ErrorMethod::MEAN_ABSOLUTE_DEVIATION:
             min = 0.0;
             max = 127.5; // Maximum possible MAD
             defaultValue = 15.0;
-            rangeDescription = "For MAD method (theoretical max: 127.5)\n"
+            rangeDescription = "For MAD method (valid range: 0.0-127.5)\n"
                               "* Low threshold (high detail): 5-15\n"
                               "* Medium threshold: 15-30\n"
-                              "* High threshold (less detail): 30-50";
+                              "* High threshold (less detail): 30-50++";
             break;
         case ErrorMethod::MAX_PIXEL_DIFFERENCE:
             min = 0.0;
             max = 255.0; // Maximum pixel difference
             defaultValue = 30.0;
-            rangeDescription = "For Max Pixel Difference (theoretical max: 255)\n"
+            rangeDescription = "For Max Pixel Difference (valid range: 0.0-255.0)\n"
                               "* Low threshold (high detail): 10-30\n"
                               "* Medium threshold: 30-60\n"
-                              "* High threshold (less detail): 60-100";
+                              "* High threshold (less detail): 60-100++";
             break;
         case ErrorMethod::ENTROPY:
             min = 0.0;
             max = 8.0; // Maximum entropy for 8-bit channels
             defaultValue = 1.0;
-            rangeDescription = "For Entropy method (theoretical max: 8)\n"
+            rangeDescription = "For Entropy method (valid range: 0.0-8.0)\n"
                               "* Low threshold (high detail): 0.1-1.0\n"
                               "* Medium threshold: 1.0-2.0\n"
-                              "* High threshold (less detail): 2.0-4.0";
+                              "* High threshold (less detail): 2.0-4.0++";
             break;
         case ErrorMethod::STRUCTURAL_SIMILARITY:
             min = 0.0;
             max = 1.0; // SSIM error range
             defaultValue = 0.05;
-            rangeDescription = "For SSIM method (theoretical max: 1.0)\n"
+            rangeDescription = "For SSIM method (valid range: 0.0-1.0)\n"
                               "* Low threshold (high detail): 0.01-0.05\n"
                               "* Medium threshold: 0.05-0.15\n"
-                              "* High threshold (less detail): 0.15-0.3";
+                              "* High threshold (less detail): 0.15-0.3++";
             break;
     }
     
+    cout << ANSI_BOLD << ANSI_RED << "\nVALID THRESHOLD RANGE: " << min << " to " << max << ANSI_RESET << endl;
     cout << rangeDescription << endl;
-    cout << "Suggested default value: " << defaultValue << endl;
+    cout << "Suggested value: " << defaultValue << endl;
     
     while (true) {
         string input = getStringInput(" ");
@@ -274,27 +291,24 @@ bool InputManager::handleThresholdPage() {
             displayPageHeader("Threshold Value");
             cout << "Enter the threshold value for error." << endl;
             cout << "This value determines when a block should be subdivided." << endl;
+            cout << ANSI_BOLD << ANSI_RED << "\nVALID THRESHOLD RANGE: " << min << " to " << max << ANSI_RESET << endl;
             cout << rangeDescription << endl;
-            cout << "Suggested default value: " << defaultValue << endl;
+            cout << "Suggested value: " << defaultValue << endl;
             continue;
         }
 
-        // Accept empty input to use default value
         if (input.empty()) {
-            params.threshold = defaultValue;
-            cout << "Using default value: " << defaultValue << endl;
-            return true;
+            cout << ANSI_RED << "Error: Threshold value cannot be empty. Please enter a value." << ANSI_RESET << endl;
+            continue;
         }
         
         try {
             double threshold = stod(input);
             if (threshold < min || threshold > max) {
-                cout << ANSI_RED << "Warning: Value " << threshold << " is outside the recommended range of " 
-                     << min << " to " << max << ". Continue anyway? (y/n)" << ANSI_RESET << endl;
-                string confirm = getStringInput("");
-                if (confirm != "y" && confirm != "Y" && confirm != "yes" && confirm != "Yes") {
-                    continue;
-                }
+                cout << ANSI_RED << "ERROR: The value " << threshold << " is outside the valid range of " 
+                     << min << " to " << max << " for the selected error method." << ANSI_RESET << endl;
+                cout << "Please enter a value within the valid range." << endl;
+                continue;
             }
             params.threshold = threshold;
             return true;
@@ -304,43 +318,37 @@ bool InputManager::handleThresholdPage() {
     }
 }
 
+// handle input minimum block size sesuai dengan dimensi gambar
 bool InputManager::handleMinBlockSizePage() {
     clearScreen();
     displayPageHeader("Minimum Block Size");
     cout << "Enter the minimum block size in square pixels (area, not length)" << endl;
-    cout << "This is the smallest area (width × height) that will be used during compression." << endl;
+    cout << "This is the smallest area (width x height) that will be used during compression." << endl;
     
-    // Set the absolute minimum
     int minValue = 1;
+    int maxValue = 65536; // 256×256 default
     
-    // Set a reasonable maximum (if we don't know the image dimensions yet)
-    // This will be the entire image area, but we'll use a large default
-    int maxValue = 65536; // 256×256 pixels by default
-    
-    // If we have the image path, try to get actual dimensions
+    // cari max area dari gambar (buat maksimum min block size)
     if (!params.inputImagePath.empty() && fs::exists(params.inputImagePath)) {
         try {
             cv::Mat image = cv::imread(params.inputImagePath, cv::IMREAD_COLOR);
             if (!image.empty()) {
                 int imageWidth = image.cols;
                 int imageHeight = image.rows;
-                maxValue = imageWidth * imageHeight; // The entire image area
+                maxValue = imageWidth * imageHeight;
             }
         } catch (...) {
-            // If there's any error, stick with the default maximum
         }
     }
     
-    // Display the allowed range
     cout << ANSI_GREEN << "\nAllowed range: " << minValue << "-" << maxValue 
          << " square pixels" << ANSI_RESET << endl;
     
-    // Also show some recommended values
     cout << "\nRecommended values:" << endl;
-    cout << "* 4 (2×2) - High detail" << endl;
-    cout << "* 16 (4×4) - Good detail" << endl;
-    cout << "* 64 (8×8) - Medium detail" << endl;
-    cout << "* 256 (16×16) - Low detail" << endl;
+    cout << "* 4 (2x2) - High detail" << endl;
+    cout << "* 16 (4x4) - Good detail" << endl;
+    cout << "* 64 (8x8) - Medium detail" << endl;
+    cout << "* 256 (16x16++) - Low detail" << endl;
     
     while (true) {
         string input = getStringInput(" ");
@@ -351,14 +359,12 @@ bool InputManager::handleMinBlockSizePage() {
             return false;
         }
         if (lower == "clear") {
-            return handleMinBlockSizePage(); // Refresh the screen
+            return handleMinBlockSizePage();
         }
         
-        // Accept empty input for default value
         if (input.empty()) {
-            cout << "Using default value: 4 square pixels (2×2)" << endl;
-            params.minBlockSize = 4;
-            return true;
+            cout << ANSI_RED << "Error: Minimum block size cannot be empty. Please enter a value." << ANSI_RESET << endl;
+            continue;
         }
         
         try {
@@ -382,6 +388,7 @@ bool InputManager::handleMinBlockSizePage() {
     }
 }
 
+// handle input target compression percentage (bonus)
 bool InputManager::handleTargetCompressionPage() {
     clearScreen();
     displayPageHeader("Target Compression Percentage");
@@ -420,10 +427,18 @@ bool InputManager::handleTargetCompressionPage() {
     }
 }
 
+// handle output pathing
 bool InputManager::handleOutputImagePathPage() {
     clearScreen();
     displayPageHeader("Output Image Path");
-    cout << "Enter the output path for the compressed image:" << endl;
+    
+    fs::path inputPath(params.inputImagePath);
+    string inputExt = inputPath.extension().string();
+    transform(inputExt.begin(), inputExt.end(), inputExt.begin(), ::tolower);
+    
+    cout << "Enter the output path for the compressed image" << endl;
+    cout << ANSI_BOLD << ANSI_RED << "NOTE: The output file MUST use the same extension as the input file (" 
+         << inputExt << ")" << ANSI_RESET << endl;
     
     while (true) {
         string path = getStringInput(" ");
@@ -436,7 +451,14 @@ bool InputManager::handleOutputImagePathPage() {
         if (lower == "clear") {
             clearScreen();
             displayPageHeader("Output Image Path");
-            cout << "Enter the output path for the compressed image:" << endl;
+            cout << "Enter the output path for the compressed image" << endl;
+            cout << ANSI_BOLD << ANSI_RED << "NOTE: The output file MUST use the same extension as the input file (" 
+                 << inputExt << ")" << ANSI_RESET << endl;
+            continue;
+        }
+        
+        if (path.empty()) {
+            cout << ANSI_RED << "Error: Output path cannot be empty." << ANSI_RESET << endl;
             continue;
         }
         
@@ -446,18 +468,34 @@ bool InputManager::handleOutputImagePathPage() {
             cout << ANSI_RED << "Error: Output directory does not exist. Please enter a valid path." << ANSI_RESET << endl;
             continue;
         }
-        string extension = outputPath.extension().string();
-        transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
-        if (extension != ".jpg" && extension != ".png" && extension != ".bmp") {
-            cout << ANSI_RED << "Error: Output must be .jpg, .png, or .bmp. Please enter a valid path." << ANSI_RESET << endl;
+        
+        string providedExt = "";
+        size_t extPos = path.rfind('.');
+        if (extPos != string::npos) {
+            providedExt = path.substr(extPos);
+            transform(providedExt.begin(), providedExt.end(), providedExt.begin(), ::tolower);
+            
+            if (providedExt != inputExt) {
+                cout << ANSI_RED << "ERROR: Invalid file extension: " << providedExt << endl;
+                cout << "The output file extension must match the input file extension: " << inputExt << ANSI_RESET << endl;
+                cout << "Please try again with the correct extension." << endl;
+                continue;
+            } 
+            
+            params.outputImagePath = path;
+        } else {
+            cout << ANSI_RED << "ERROR: No file extension provided." << endl;
+            cout << "The output file must have the same extension as the input file: " << inputExt << ANSI_RESET << endl;
+            cout << "Please try again with the correct extension." << endl;
             continue;
         }
         
-        params.outputImagePath = path;
+        cout << ANSI_GREEN << "Output path set to: " << params.outputImagePath << ANSI_RESET << endl;
         return true;
     }
 }
 
+// handle gif output path (bonus)
 bool InputManager::handleGifOutputPathPage() {
     clearScreen();
     displayPageHeader("GIF Output Path (Bonus)");
@@ -526,6 +564,7 @@ bool InputManager::handleGifOutputPathPage() {
     }
 }
 
+// handle konfirmasi sebelum proses kompresi
 bool InputManager::handleConfirmationPage() {
     clearScreen();
     displayPageHeader("Confirmation");
@@ -625,24 +664,30 @@ bool InputManager::handleConfirmationPage() {
             cout << endl << "Press ENTER to confirm and start compression, or type 'B' to go back." << endl;
             continue;
         }
-        // Input selain "B" atau "clear" dianggap sebagai konfirmasi
         return true;
     }
 }
 
 bool InputManager::fileExists(const string& filePath) {
+    // checker buat mastiin file ada atau enggak
+
     return fs::exists(filePath);
 }
 
 bool InputManager::isImageFile(const string& filePath) {
+    // checker buat mastiin file image atau bukan
+
     fs::path path(filePath);
     string ext = path.extension().string();
     transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
     
-    return (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp");
+    return (ext == ".jpg" || ext == ".jpeg" || ext == ".png"); // .jpg, .jpeg, .png
 }
 
+
 bool InputManager::validatePath(const string& path, bool mustExist) {
+    // checker untuk absolute path
+
     if (path.empty()) {
         return false;
     }
@@ -655,22 +700,32 @@ bool InputManager::validatePath(const string& path, bool mustExist) {
 }
 
 bool InputManager::validateErrorMethod(int method) {
+    // checker untuk error method (1-5)
+
     return method >= 1 && method <= 5;
 }
 
 bool InputManager::validateThreshold(double threshold) {
+    // checker untuk threshold (relatif dengan error method)
+
     return threshold >= 0.0;
 }
 
 bool InputManager::validateMinBlockSize(int size) {
+    // checker untuk minimum block size (relatif dengan dimensi gambar)
+
     return size >= 1;
 }
 
 bool InputManager::validateTargetCompression(double percentage) {
+    // checker untuk target compression percentage (0%-100%)
+
     return percentage >= 0.0 && percentage <= 1.0;
 }
 
 string InputManager::getStringInput(const string& prompt) {
+    // string input handler
+
     if (!prompt.empty()) {
         cout << prompt;
     }
@@ -691,6 +746,8 @@ string InputManager::getStringInput(const string& prompt) {
 }
 
 int InputManager::getIntInput(const string& prompt, int min, int max) {
+    // integer input handler
+
     if (!prompt.empty()) {
         cout << prompt;
     }
@@ -725,6 +782,8 @@ int InputManager::getIntInput(const string& prompt, int min, int max) {
 }
 
 double InputManager::getDoubleInput(const string& prompt, double min, double max) {
+    // double input handler
+
     if (!prompt.empty()) {
         cout << prompt;
     }
@@ -759,6 +818,8 @@ double InputManager::getDoubleInput(const string& prompt, double min, double max
 }
 
 bool InputManager::getBoolInput(const string& prompt) {
+    // boolean input handler
+    
     if (!prompt.empty()) {
         cout << prompt;
     }

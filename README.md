@@ -211,41 +211,44 @@
  ---
  ## 📱 Repository Structure
  ```
- 📂 Tubes1_Rudal-Sekeloa-Reloaded/
- ├── 📂 docs/
+ 📂 Tucil2_13523027_13523090/
+ ├── 📂 bin/
+ │ ├── .gitignore
+ │ ├── quadtree_compression
+ │ └── quadtree_compression.exe
+ ├── 📂 doc/
  │ ├── .gitkeep
- │ └── Rudal Sekeloa Reloaded.pdf
+ │ └── Tucil2_13523027_13523090.pdf
  ├── 📂 src/
- │ ├── 📂 alternative-bots/
- │ │ ├── 📂 Kaze/
- │ │ │ ├── Kaze.cmd
- │ │ │ ├── Kaze.cs
- │ │ │ ├── Kaze.csproj
- │ │ │ ├── Kaze.json
- │ │ │ └── Kaze.sh
- │ │ ├── 📂 Sweepredict/
- │ │ │ ├── Sweepredict.cmd
- │ │ │ ├── Sweepredict.cs
- │ │ │ ├── Sweepredict.csproj
- │ │ │ ├── Sweepredict.json
- │ │ │ └── Sweepredict.sh
- │ │ ├── 📂 Waves/
- │ │ │ ├── Waves.cmd
- │ │ │ ├── Waves.cs
- │ │ │ ├── Waves.csproj
- │ │ │ ├── Waves.json
- │ │ │ └── Waves.sh
- │ │ └── .gitkeep
- │ └── 📂 main-bots/
- │ │ ├── 📂 RudalSekeloa/
- │ │ │ ├── RudalSekeloa.cmd
- │ │ │ ├── RudalSekeloa.cs
- │ │ │ ├── RudalSekeloa.csproj
- │ │ │ ├── RudalSekeloa.json
- │ │ │ └── RudalSekeloa.sh
- │ │ └── .gitkeep
+ │ ├── 📂 comps/
+ │ │ ├── BasicInputManager.cpp
+ │ │ ├── CompressionAnalyzer.cpp
+ │ │ ├── ErrorCalculation.cpp
+ │ │ ├── GifGenerator.cpp
+ │ │ ├── ImageProcessor.cpp
+ │ │ ├── InputManager.cpp
+ │ │ ├── QuadTree.cpp
+ │ │ └── main.cpp
+ │ ├── 📂 header/
+ │ │ ├── BasicInputManager.hpp
+ │ │ ├── CompressionAnalyzer.hpp
+ │ │ ├── CompressionParams.hpp
+ │ │ ├── ErrorCalculator.hpp
+ │ │ ├── GifGenerator.hpp
+ │ │ ├── ImageProcessor.hpp
+ │ │ ├── InputManager.hpp
+ │ │ ├── Pixel.hpp
+ │ │ └── QuadTree.hpp
+ │ └── .gitkeep
+ ├── 📂 test/
+ ├──  CMakeLists.txt
  ├──  README.md
- └──  robocode-tankroyale-gui-0.30.0.jar
+ ├──  build.bat
+ ├──  build.sh
+ ├──  clean.bat
+ ├──  clean.sh
+ ├──  run.bat
+ └──  run.sh
  ```
  
  ---

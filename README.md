@@ -54,6 +54,7 @@
  - CMake
  - OpenCV
  - ImageMagick
+ - FFmpeg
  - C++ Compiler
 
  <br/>
@@ -280,8 +281,17 @@
     .\run.bat page
     ```
  
+---
+ ### **‼️ Troubleshooting**
+ if you encounter error when running in windows (or the binary can't be run), go to the run.bat:
+     ```bash
+     
+    # Set OpenCV path based on your device's path (change this line in run.bat)
+    if exist "C:\tools\opencv\build"
 
-### Note: you can change the game rule in battle->Setup Rules.
+    # Set ImageMagick path based on your device's path (change this line in run.bat)
+    if exist "C:\Program Files\ImageMagick*"
+    ```
  ---
  ## 📱 Repository Structure
  ```

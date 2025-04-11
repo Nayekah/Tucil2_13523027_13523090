@@ -223,7 +223,7 @@
     ./run.sh basic
     ```
 
- #### 🛠️ Paging Mode Mode
+ #### 🛠️ Paging Mode
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
@@ -238,6 +238,48 @@
     ```bash
     ./run.sh page
     ```
+ ---
+ ### **🪟 Windows**
+ #### 🛠️ Default Mode
+ 1. Open a terminal
+ 2. Clone the repository (if not already cloned)
+       ```bash
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
+    ```
+ 3. Make Tucil2_13523027_13523090 as root directory:
+       ```bash
+    cd .\Tucil2_13523027_13523090
+    ```
+ 4. Install the [dependencies](#win-dependencies) first (if not already installed)
+ 5. Do: 
+    ```bash
+    run.bat basic
+
+    or
+
+    .\run.bat basic
+    ```
+
+ #### 🛠️ Paging Mode
+ 1. Open a terminal
+ 2. Clone the repository (if not already cloned)
+       ```bash
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
+    ```
+ 3. Make Tucil2_13523027_13523090 as root directory:
+       ```bash
+    cd .\Tucil2_13523027_13523090
+    ```
+ 4. Install the [dependencies](#win-dependencies) first (if not already installed)
+ 5. Do: 
+    ```bash
+    run.bat page
+
+    or
+
+    .\run.bat page
+    ```
+ 
 
 ### Note: you can change the game rule in battle->Setup Rules.
  ---

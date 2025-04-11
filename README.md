@@ -294,44 +294,83 @@
  ---
  ## 📱 Repository Structure
  ```
- 📂 Tucil2_13523027_13523090/
- ├── 📂 bin/
- │ ├── .gitignore
- │ ├── quadtree_compression
- │ └── quadtree_compression.exe
- ├── 📂 doc/
- │ ├── .gitkeep
- │ └── Tucil2_13523027_13523090.pdf
- ├── 📂 src/
- │ ├── 📂 comps/
- │ │ ├── BasicInputManager.cpp
- │ │ ├── CompressionAnalyzer.cpp
- │ │ ├── ErrorCalculation.cpp
- │ │ ├── GifGenerator.cpp
- │ │ ├── ImageProcessor.cpp
- │ │ ├── InputManager.cpp
- │ │ ├── QuadTree.cpp
- │ │ └── main.cpp
- │ ├── 📂 header/
- │ │ ├── BasicInputManager.hpp
- │ │ ├── CompressionAnalyzer.hpp
- │ │ ├── CompressionParams.hpp
- │ │ ├── ErrorCalculator.hpp
- │ │ ├── GifGenerator.hpp
- │ │ ├── ImageProcessor.hpp
- │ │ ├── InputManager.hpp
- │ │ ├── Pixel.hpp
- │ │ └── QuadTree.hpp
- │ └── .gitkeep
- ├── 📂 test/
- ├──  CMakeLists.txt
- ├──  README.md
- ├──  build.bat
- ├──  build.sh
- ├──  clean.bat
- ├──  clean.sh
- ├──  run.bat
- └──  run.sh
+📂 Tucil2_13523027_13523090/
+├── 📂 bin/
+│   ├── .gitignore
+│   ├── quadtree_compression
+│   └── quadtree_compression.exe
+│
+├── 📂 doc/
+│   ├── .gitkeep
+│   └── Tucil2_13523027_13523090.pdf
+│
+├── 📂 src/
+│   ├── 📂 comps/
+│   │   ├── BasicInputManager.cpp
+│   │   ├── CompressionAnalyzer.cpp
+│   │   ├── ErrorCalculation.cpp
+│   │   ├── GifGenerator.cpp
+│   │   ├── ImageProcessor.cpp
+│   │   ├── InputManager.cpp
+│   │   ├── QuadTree.cpp
+│   │   └── main.cpp
+│   │
+│   ├── 📂 header/
+│   │   ├── BasicInputManager.hpp
+│   │   ├── CompressionAnalyzer.hpp
+│   │   ├── CompressionParams.hpp
+│   │   ├── ErrorCalculator.hpp
+│   │   ├── GifGenerator.hpp
+│   │   ├── ImageProcessor.hpp
+│   │   ├── InputManager.hpp
+│   │   ├── Pixel.hpp
+│   │   └── QuadTree.hpp
+│   │
+│   └── .gitkeep
+│
+├── 📂 test/
+│   ├── 📂 input/
+│   │   ├── W.jpg
+│   │   ├── bocchi.jpg
+│   │   ├── coffee.jpg
+│   │   ├── flower.jpg
+│   │   ├── isagi.jpg
+│   │   ├── kaneki.jpeg
+│   │   ├── kosong.png
+│   │   ├── lappland.jpg
+│   │   ├── misteri.jpg
+│   │   ├── sample1.jpg
+│   │   ├── texas.jpg
+│   │   └── tragedy.png
+│   │
+│   └── 📂 output/
+│   │   ├── W256.jpg
+│   │   ├── W256gif.gif
+│   │   ├── W64.jpg
+│   │   ├── W64gif.gif
+│   │   ├── Wlow.jpg
+│   │   ├── Wlowgif.gif
+│   │   ├── bocchlow.jpg
+│   │   ├── bocchlowgif.gif
+│   │   ├── flower.gif
+│   │   ├── lappgif.gif
+│   │   ├── lapplow.jpg
+│   │   ├── mygoat.jpg
+│   │   ├── mygoat2.jpg
+│   │   ├── rcoffee.jpg
+│   │   ├── rkaneki.jpeg
+│   │   ├── rtragedy.png
+│   │   ├── sample1a.jpg
+│   │   └── texlow2.jpg
+├── CMakeLists.txt
+├── README.md
+├── build.bat
+├── build.sh
+├── clean.bat
+├── clean.sh
+├── run.bat
+└── run.sh
+
  ```
  
  ---

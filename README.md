@@ -206,7 +206,6 @@
     ```
  ---
  ## ✨ How to Run
-![tutorial](https://github.com/user-attachments/assets/e428faf9-d83b-4160-b81a-e57a6c5aa4fe)
  ### **🐧 Linux**
  #### 📰 Default Mode
  1. Open a terminal

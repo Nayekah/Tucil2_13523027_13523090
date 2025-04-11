@@ -207,7 +207,7 @@
  ## ✨ How to Run
 ![tutorial](https://github.com/user-attachments/assets/e428faf9-d83b-4160-b81a-e57a6c5aa4fe)
  ### **🐧 Linux**
- #### 🛠️ Default Mode
+ #### 📰 Default Mode
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
@@ -223,7 +223,7 @@
     ./run.sh basic
     ```
 
- #### 🛠️ Paging Mode
+ #### 📟 Paging Mode
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
@@ -240,7 +240,7 @@
     ```
  ---
  ### **🪟 Windows**
- #### 🛠️ Default Mode
+ #### 📰 Default Mode
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash
@@ -260,7 +260,7 @@
     .\run.bat basic
     ```
 
- #### 🛠️ Paging Mode
+ #### 📟 Paging Mode
  1. Open a terminal
  2. Clone the repository (if not already cloned)
        ```bash

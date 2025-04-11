@@ -206,6 +206,38 @@
  ---
  ## ✨ How to Run
 ![tutorial](https://github.com/user-attachments/assets/e428faf9-d83b-4160-b81a-e57a6c5aa4fe)
+ ### **🐧 Linux**
+ #### 🛠️ Default Mode
+ 1. Open a terminal
+ 2. Clone the repository (if not already cloned)
+       ```bash
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
+    ```
+ 3. Make Tucil2_13523027_13523090 as root directory:
+       ```bash
+    cd Tucil2_13523027_13523090/
+    ```
+ 4. Install the [dependencies](#linux-dependencies) first (if not already installed)
+ 5. Do: 
+    ```bash
+    ./run.sh basic
+    ```
+
+ #### 🛠️ Paging Mode Mode
+ 1. Open a terminal
+ 2. Clone the repository (if not already cloned)
+       ```bash
+    git clone https://github.com/Nayekah/Tucil2_13523027_13523090.git
+    ```
+ 3. Make Tucil2_13523027_13523090 as root directory:
+       ```bash
+    cd Tucil2_13523027_13523090/
+    ```
+ 4. Install the [dependencies](#linux-dependencies) first (if not already installed)
+ 5. Do: 
+    ```bash
+    ./run.sh page
+    ```
 
 ### Note: you can change the game rule in battle->Setup Rules.
  ---
